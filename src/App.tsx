@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MENU_ITEMS, type MenuItem, type Category } from "./menuData";
-import { describeCustomization, type CartLine } from "./cart";
+import { describeCustomization, formatPrice, type CartLine } from "./cart";
 import PizzaWizard from "./PizzaWizard";
 import LoginModal from "./LoginModal";
 import CartDrawer from "./CartDrawer";
@@ -38,6 +38,14 @@ function CartIcon() {
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <circle cx="9" cy="21" r="1" /><circle cx="20" cy="21" r="1" />
       <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+    </svg>
+  );
+}
+
+function SearchIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
     </svg>
   );
 }
@@ -83,6 +91,7 @@ function Header({
   isLoggedIn,
   onAccountClick,
   onCartClick,
+  onSearch,
 }: {
   cartCount: number;
   activeView: View;
@@ -90,8 +99,20 @@ function Header({
   isLoggedIn: boolean;
   onAccountClick: () => void;
   onCartClick: () => void;
+  onSearch: (query: string) => void;
 }) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [query, setQuery] = useState("");
+
+  function submitSearch() {
+    const trimmed = query.trim();
+    if (trimmed) {
+      onSearch(trimmed);
+      setQuery("");
+    }
+    setSearchOpen(false);
+  }
 
   return (
     <header style={{ backgroundColor: "#FFFFFF", borderBottom: "2px solid #E31837" }} className="sticky top-0 z-50 w-full">
@@ -126,6 +147,40 @@ function Header({
         </nav>
 
         <div className="flex items-center gap-2">
+          {searchOpen ? (
+            <div
+              className="hidden md:flex items-center gap-2 rounded-full px-3 py-2"
+              style={{ backgroundColor: "rgba(0,0,0,0.04)", border: "1px solid rgba(0,0,0,0.12)" }}
+            >
+              <span className="text-black/50"><SearchIcon /></span>
+              <input
+                autoFocus
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") submitSearch();
+                  if (e.key === "Escape") {
+                    setSearchOpen(false);
+                    setQuery("");
+                  }
+                }}
+                onBlur={() => {
+                  if (!query.trim()) setSearchOpen(false);
+                }}
+                placeholder="Buscar en el menú..."
+                className="bg-transparent outline-none text-sm text-neutral-900 placeholder:text-neutral-900/35 w-44"
+              />
+            </div>
+          ) : (
+            <button
+              onClick={() => setSearchOpen(true)}
+              className="hidden md:flex items-center justify-center w-10 h-10 rounded-full text-black/60 hover:text-black hover:bg-black/5 transition-all duration-150"
+              aria-label="Buscar"
+            >
+              <SearchIcon />
+            </button>
+          )}
           <button
             onClick={onAccountClick}
             className="hidden md:flex items-center justify-center w-10 h-10 rounded-full transition-all duration-150"
@@ -364,9 +419,9 @@ function MenuCard({
         <div className="flex items-center justify-between mt-3 pt-3 gap-2 flex-wrap" style={{ borderTop: "1px solid rgba(0,0,0,0.08)" }}>
           <div>
             <span className="text-2xl font-black" style={{ color: "#E31837", fontFamily: "var(--font-display)" }}>
-              ${item.price}
+              ${formatPrice(item.price)}
             </span>
-            <span className="text-neutral-900/35 text-xs ml-1 font-medium">MXN</span>
+            <span className="text-neutral-900/35 text-xs ml-1 font-medium">COP</span>
           </div>
           <div className="flex items-center gap-2">
             {item.category === "Pizzas" && (
@@ -403,14 +458,28 @@ function MenuPage({
   onPersonalize,
   addedIds,
   cartCount,
+  initialSearch,
+  searchNonce,
 }: {
   onAdd: (id: number) => void;
   onPersonalize: (id: number) => void;
   addedIds: Set<number>;
   cartCount: number;
+  initialSearch: string;
+  searchNonce: number;
 }) {
   const [activeCategory, setActiveCategory] = useState<Category>("Pizzas");
   const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    if (searchNonce === 0) return;
+    setSearch(initialSearch);
+    const match = MENU_ITEMS.find(
+      (i) => i.name.toLowerCase().includes(initialSearch.toLowerCase()) || i.desc.toLowerCase().includes(initialSearch.toLowerCase())
+    );
+    if (match) setActiveCategory(match.category);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchNonce]);
 
   const filtered = MENU_ITEMS.filter(
     (item) =>
@@ -1147,7 +1216,7 @@ function AddressPage({
                         {customizationLabel && <p className="text-xs text-neutral-900/40 font-medium">{customizationLabel}</p>}
                       </div>
                       <span className="text-sm font-black shrink-0" style={{ color: "#E31837", fontFamily: "var(--font-display)" }}>
-                        ${line.unitPrice * line.quantity}
+                        ${formatPrice(line.unitPrice * line.quantity)}
                       </span>
                     </div>
                   );
@@ -1156,14 +1225,14 @@ function AddressPage({
             </div>
             <div className="flex flex-col gap-2 pt-4" style={{ borderTop: "1px solid rgba(0,0,0,0.08)" }}>
               <div className="flex justify-between text-sm text-neutral-900/50 font-medium">
-                <span>Subtotal</span><span>${subtotal}</span>
+                <span>Subtotal</span><span>${formatPrice(subtotal)} COP</span>
               </div>
               <div className="flex justify-between text-sm font-medium" style={{ color: "#059669" }}>
                 <span>Envío</span><span>Gratis</span>
               </div>
               <div className="flex justify-between text-base font-black text-neutral-900 mt-1">
                 <span style={{ fontFamily: "var(--font-display)" }}>Total</span>
-                <span style={{ color: "#E31837", fontFamily: "var(--font-display)" }}>${subtotal}</span>
+                <span style={{ color: "#E31837", fontFamily: "var(--font-display)" }}>${formatPrice(subtotal)} COP</span>
               </div>
             </div>
           </div>
@@ -1211,6 +1280,8 @@ export default function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [loggedInEmail, setLoggedInEmail] = useState<string | null>(null);
+  const [menuSearch, setMenuSearch] = useState("");
+  const [menuSearchNonce, setMenuSearchNonce] = useState(0);
 
   const cartCount = cart.reduce((n, l) => n + l.quantity, 0);
   const addedIds = new Set(cart.filter((l) => !l.customization).map((l) => l.menuItemId));
@@ -1252,6 +1323,12 @@ export default function App() {
 
   const customizingPizza = customizingItemId !== null ? MENU_ITEMS.find((i) => i.id === customizingItemId) ?? null : null;
 
+  function handleHeaderSearch(term: string) {
+    setMenuSearch(term);
+    setMenuSearchNonce((n) => n + 1);
+    setView("menu");
+  }
+
   return (
     <div className="min-h-screen flex flex-col" style={{ backgroundColor: "#FFFFFF" }}>
       <Header
@@ -1261,11 +1338,19 @@ export default function App() {
         isLoggedIn={loggedInEmail !== null}
         onAccountClick={() => (loggedInEmail !== null ? setLoggedInEmail(null) : setIsLoginOpen(true))}
         onCartClick={() => setIsCartOpen(true)}
+        onSearch={handleHeaderSearch}
       />
       {view === "home" ? (
         <HomePage onAddSimple={addSimpleItem} onOrderNow={() => setView("menu")} onPersonalize={setCustomizingItemId} addedIds={addedIds} />
       ) : view === "menu" ? (
-        <MenuPage onAdd={addSimpleItem} onPersonalize={setCustomizingItemId} addedIds={addedIds} cartCount={cartCount} />
+        <MenuPage
+          onAdd={addSimpleItem}
+          onPersonalize={setCustomizingItemId}
+          addedIds={addedIds}
+          cartCount={cartCount}
+          initialSearch={menuSearch}
+          searchNonce={menuSearchNonce}
+        />
       ) : (
         <AddressPage cart={cart} onContinue={() => alert("¡Pedido confirmado! Gracias por tu orden.")} cartCount={cartCount} />
       )}

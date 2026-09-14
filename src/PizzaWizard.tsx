@@ -8,6 +8,7 @@ import {
   DOUGH_DELTAS,
   EXTRA_TOPPINGS,
   computeUnitPrice,
+  formatPrice,
 } from "./cart";
 
 const SIZES: PizzaSize[] = ["Chica", "Mediana", "Grande", "Familiar"];
@@ -16,7 +17,7 @@ const STEP_LABELS = ["Mitad y mitad", "Tamaño y masa", "Ingredientes", "Resumen
 
 function formatDelta(n: number): string {
   if (n === 0) return "Sin costo extra";
-  return n > 0 ? `+$${n}` : `-$${Math.abs(n)}`;
+  return n > 0 ? `+$${formatPrice(n)}` : `-$${formatPrice(Math.abs(n))}`;
 }
 
 interface PizzaWizardProps {
@@ -158,7 +159,7 @@ export default function PizzaWizard({ pizza, onClose, onAdd }: PizzaWizardProps)
                           <img src={p.img} alt={p.name} className="w-14 h-14 rounded-lg object-cover shrink-0" />
                           <div className="min-w-0">
                             <p className="text-sm font-bold text-neutral-900 truncate">{p.name}</p>
-                            <p className="text-xs font-bold" style={{ color: "#E31837" }}>${p.price}</p>
+                            <p className="text-xs font-bold" style={{ color: "#E31837" }}>${formatPrice(p.price)}</p>
                           </div>
                         </button>
                       );
@@ -236,7 +237,7 @@ export default function PizzaWizard({ pizza, onClose, onAdd }: PizzaWizardProps)
                       style={{ backgroundColor: selected ? "#E31837" : "rgba(0,0,0,0.03)", border: `1.5px solid ${selected ? "#E31837" : "rgba(0,0,0,0.1)"}` }}
                     >
                       <span className="text-sm font-black" style={{ color: selected ? "#fff" : "#1a1310" }}>{t.name}</span>
-                      <span className="text-xs font-bold" style={{ color: selected ? "rgba(255,255,255,0.85)" : "rgba(0,0,0,0.4)" }}>+${t.price}</span>
+                      <span className="text-xs font-bold" style={{ color: selected ? "rgba(255,255,255,0.85)" : "rgba(0,0,0,0.4)" }}>+${formatPrice(t.price)}</span>
                     </button>
                   );
                 })}
@@ -252,18 +253,18 @@ export default function PizzaWizard({ pizza, onClose, onAdd }: PizzaWizardProps)
               </div>
 
               <div className="flex flex-col gap-2 p-5 rounded-xl" style={{ backgroundColor: "rgba(0,0,0,0.03)" }}>
-                <div className="flex justify-between text-sm font-medium text-neutral-900/60"><span>Precio base</span><span>${basePrice}</span></div>
+                <div className="flex justify-between text-sm font-medium text-neutral-900/60"><span>Precio base</span><span>${formatPrice(basePrice)}</span></div>
                 <div className="flex justify-between text-sm font-medium text-neutral-900/60"><span>Tamaño ({size})</span><span>{formatDelta(SIZE_DELTAS[size])}</span></div>
                 <div className="flex justify-between text-sm font-medium text-neutral-900/60"><span>Masa ({dough})</span><span>{formatDelta(DOUGH_DELTAS[dough])}</span></div>
                 {extraToppingIds.length > 0 && (
                   <div className="flex justify-between text-sm font-medium text-neutral-900/60">
                     <span>{extraToppingIds.length} ingrediente{extraToppingIds.length > 1 ? "s" : ""} extra</span>
-                    <span>+${toppingsTotal}</span>
+                    <span>+${formatPrice(toppingsTotal)}</span>
                   </div>
                 )}
                 <div className="flex justify-between text-base font-black text-neutral-900 mt-2 pt-2" style={{ borderTop: "1px solid rgba(0,0,0,0.1)" }}>
                   <span style={{ fontFamily: "var(--font-display)" }}>Precio unitario</span>
-                  <span style={{ color: "#E31837", fontFamily: "var(--font-display)" }}>${unitPrice}</span>
+                  <span style={{ color: "#E31837", fontFamily: "var(--font-display)" }}>${formatPrice(unitPrice)}</span>
                 </div>
               </div>
 
@@ -346,10 +347,10 @@ export default function PizzaWizard({ pizza, onClose, onAdd }: PizzaWizardProps)
                 </span>
               </div>
               <div className="flex flex-col gap-1 pt-3" style={{ borderTop: "1px solid rgba(0,0,0,0.08)" }}>
-                <div className="flex justify-between text-sm text-neutral-900/55 font-medium"><span>Unitario</span><span>${unitPrice}</span></div>
+                <div className="flex justify-between text-sm text-neutral-900/55 font-medium"><span>Unitario</span><span>${formatPrice(unitPrice)}</span></div>
                 <div className="flex justify-between text-base font-black text-neutral-900">
                   <span style={{ fontFamily: "var(--font-display)" }}>Total ({quantity})</span>
-                  <span style={{ color: "#E31837", fontFamily: "var(--font-display)" }}>${totalPrice}</span>
+                  <span style={{ color: "#E31837", fontFamily: "var(--font-display)" }}>${formatPrice(totalPrice)}</span>
                 </div>
               </div>
             </div>

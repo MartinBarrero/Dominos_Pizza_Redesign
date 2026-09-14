@@ -20,17 +20,17 @@ export interface CartLine {
 }
 
 export const SIZE_DELTAS: Record<PizzaSize, number> = {
-  Chica: -30,
+  Chica: -3000,
   Mediana: 0,
-  Grande: 40,
-  Familiar: 80,
+  Grande: 4000,
+  Familiar: 8000,
 };
 
 export const DOUGH_DELTAS: Record<DoughType, number> = {
   Tradicional: 0,
   Delgada: 0,
-  Gruesa: 15,
-  "Rellena de queso": 35,
+  Gruesa: 1500,
+  "Rellena de queso": 3500,
 };
 
 export interface ExtraTopping {
@@ -40,15 +40,19 @@ export interface ExtraTopping {
 }
 
 export const EXTRA_TOPPINGS: ExtraTopping[] = [
-  { id: "champinones", name: "Champiñones", price: 20 },
-  { id: "pina", name: "Piña", price: 20 },
-  { id: "jalapeno", name: "Jalapeño", price: 20 },
-  { id: "tocino", name: "Tocino", price: 20 },
-  { id: "aceituna-negra", name: "Aceituna negra", price: 20 },
-  { id: "cebolla-morada", name: "Cebolla morada", price: 20 },
-  { id: "extra-queso", name: "Extra queso", price: 20 },
-  { id: "pimiento", name: "Pimiento", price: 20 },
+  { id: "champinones", name: "Champiñones", price: 2000 },
+  { id: "pina", name: "Piña", price: 2000 },
+  { id: "jalapeno", name: "Jalapeño", price: 2000 },
+  { id: "tocino", name: "Tocino", price: 2000 },
+  { id: "aceituna-negra", name: "Aceituna negra", price: 2000 },
+  { id: "cebolla-morada", name: "Cebolla morada", price: 2000 },
+  { id: "extra-queso", name: "Extra queso", price: 2000 },
+  { id: "pimiento", name: "Pimiento", price: 2000 },
 ];
+
+export function formatPrice(n: number): string {
+  return n.toLocaleString("es-CO");
+}
 
 export function computeUnitPrice(
   basePrice: number,

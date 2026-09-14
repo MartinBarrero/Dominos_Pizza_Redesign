@@ -1,4 +1,4 @@
-import { describeCustomization, type CartLine } from "./cart";
+import { describeCustomization, formatPrice, type CartLine } from "./cart";
 
 interface CartDrawerProps {
   cart: CartLine[];
@@ -81,7 +81,7 @@ export default function CartDrawer({ cart, onClose, onIncrement, onDecrement, on
                         </button>
                       </div>
                       <span className="text-sm font-black" style={{ color: "#E31837", fontFamily: "var(--font-display)" }}>
-                        ${line.unitPrice * line.quantity}
+                        ${formatPrice(line.unitPrice * line.quantity)}
                       </span>
                     </div>
                   </div>
@@ -96,7 +96,7 @@ export default function CartDrawer({ cart, onClose, onIncrement, onDecrement, on
           <div className="px-6 py-5 flex flex-col gap-4" style={{ borderTop: "1px solid rgba(0,0,0,0.08)" }}>
             <div className="flex justify-between text-base font-black text-neutral-900">
               <span style={{ fontFamily: "var(--font-display)" }}>Subtotal</span>
-              <span style={{ color: "#E31837", fontFamily: "var(--font-display)" }}>${subtotal}</span>
+              <span style={{ color: "#E31837", fontFamily: "var(--font-display)" }}>${formatPrice(subtotal)} COP</span>
             </div>
             <button
               onClick={onCheckout}
