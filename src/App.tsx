@@ -774,7 +774,15 @@ function SatelliteMapMock({ selectedStore, onSelect }: { selectedStore: number |
   );
 }
 
-function AddressPage({ cart, onContinue, cartCount }: { cart: CartLine[]; onContinue: () => void; cartCount: number }) {
+function AddressPage({
+  cart, // used by the order summary once it's wired to the real cart (next task)
+  onContinue,
+  cartCount,
+}: {
+  cart: CartLine[];
+  onContinue: () => void;
+  cartCount: number;
+}) {
   const [mode, setMode] = useState<DeliveryMode>("delivery");
   const [selectedStore, setSelectedStore] = useState<number | null>(1);
   const [form, setForm] = useState<AddressForm>({
