@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type React from "react";
 import { MENU_ITEMS, type MenuItem, type Category } from "./menuData";
+import type { CartLine } from "./cart";
 
 // ─── Data ───────────────────────────────────────────────────────────────────
 
@@ -538,13 +539,21 @@ function MenuPage({ onAdd, addedIds, cartCount }: { onAdd: (id: number) => void;
 
 // ─── Home Page ────────────────────────────────────────────────────────────────
 
-function HomePage({ onAdd, addedIds }: { onAdd: (id?: number) => void; addedIds: Set<number> }) {
+function HomePage({
+  onAddSimple,
+  onOrderNow,
+  addedIds,
+}: {
+  onAddSimple: (id: number) => void;
+  onOrderNow: () => void;
+  addedIds: Set<number>;
+}) {
   return (
     <>
-      <Hero onOrder={() => onAdd()} />
-      <HomeRecommendations onAdd={onAdd} addedIds={addedIds} />
+      <Hero onOrder={onOrderNow} />
+      <HomeRecommendations onAdd={onAddSimple} addedIds={addedIds} />
       <WhyUs />
-      <CtaBanner onOrder={() => onAdd()} />
+      <CtaBanner onOrder={onOrderNow} />
       <Footer />
     </>
   );
@@ -765,7 +774,7 @@ function SatelliteMapMock({ selectedStore, onSelect }: { selectedStore: number |
   );
 }
 
-function AddressPage({ onContinue, cartCount }: { onContinue: () => void; cartCount: number }) {
+function AddressPage({ cart, onContinue, cartCount }: { cart: CartLine[]; onContinue: () => void; cartCount: number }) {
   const [mode, setMode] = useState<DeliveryMode>("delivery");
   const [selectedStore, setSelectedStore] = useState<number | null>(1);
   const [form, setForm] = useState<AddressForm>({
@@ -1181,24 +1190,35 @@ function AddressPage({ onContinue, cartCount }: { onContinue: () => void; cartCo
 // ─── App root ─────────────────────────────────────────────────────────────────
 
 export default function App() {
-  const [cartCount, setCartCount] = useState(0);
-  const [addedIds, setAddedIds] = useState<Set<number>>(new Set());
+  const [cart, setCart] = useState<CartLine[]>([]);
   const [view, setView] = useState<View>("home");
 
-  function handleAdd(id?: number) {
-    setCartCount((c) => c + 1);
-    if (id !== undefined) setAddedIds((prev) => new Set(prev).add(id));
+  const cartCount = cart.reduce((n, l) => n + l.quantity, 0);
+  const addedIds = new Set(cart.filter((l) => !l.customization).map((l) => l.menuItemId));
+
+  function addSimpleItem(id: number) {
+    setCart((prev) => {
+      const existing = prev.find((l) => l.menuItemId === id && !l.customization);
+      if (existing) {
+        return prev.map((l) => (l.id === existing.id ? { ...l, quantity: l.quantity + 1 } : l));
+      }
+      const item = MENU_ITEMS.find((i) => i.id === id)!;
+      return [
+        ...prev,
+        { id: crypto.randomUUID(), menuItemId: item.id, name: item.name, img: item.img, unitPrice: item.price, quantity: 1 },
+      ];
+    });
   }
 
   return (
     <div className="min-h-screen flex flex-col" style={{ backgroundColor: "#0d0005" }}>
       <Header cartCount={cartCount} activeView={view} onNav={setView} />
       {view === "home" ? (
-        <HomePage onAdd={handleAdd} addedIds={addedIds} />
+        <HomePage onAddSimple={addSimpleItem} onOrderNow={() => setView("menu")} addedIds={addedIds} />
       ) : view === "menu" ? (
-        <MenuPage onAdd={handleAdd} addedIds={addedIds} cartCount={cartCount} />
+        <MenuPage onAdd={addSimpleItem} addedIds={addedIds} cartCount={cartCount} />
       ) : (
-        <AddressPage onContinue={() => alert("¡Pedido confirmado! Gracias por tu orden.")} cartCount={cartCount} />
+        <AddressPage cart={cart} onContinue={() => alert("¡Pedido confirmado! Gracias por tu orden.")} cartCount={cartCount} />
       )}
     </div>
   );
