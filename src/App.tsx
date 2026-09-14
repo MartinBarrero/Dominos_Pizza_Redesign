@@ -1,10 +1,12 @@
 import { useState } from "react";
-import type React from "react";
 import { MENU_ITEMS, type MenuItem, type Category } from "./menuData";
 import { describeCustomization, type CartLine } from "./cart";
 import PizzaWizard from "./PizzaWizard";
+import LoginModal from "./LoginModal";
+import CartDrawer from "./CartDrawer";
 import { logoDataUri as logo } from "./assets/logo";
 import heroImg from "./assets/hero.jpg";
+import { FieldError, Label, inputStyle, selectStyle } from "./formHelpers";
 
 // ─── Data ───────────────────────────────────────────────────────────────────
 
@@ -78,10 +80,16 @@ function Header({
   cartCount,
   activeView,
   onNav,
+  isLoggedIn,
+  onAccountClick,
+  onCartClick,
 }: {
   cartCount: number;
   activeView: View;
   onNav: (v: View) => void;
+  isLoggedIn: boolean;
+  onAccountClick: () => void;
+  onCartClick: () => void;
 }) {
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -118,10 +126,19 @@ function Header({
         </nav>
 
         <div className="flex items-center gap-2">
-          <button className="hidden md:flex items-center justify-center w-10 h-10 rounded-full text-black/60 hover:text-black hover:bg-black/5 transition-all duration-150" aria-label="Mi cuenta">
+          <button
+            onClick={onAccountClick}
+            className="hidden md:flex items-center justify-center w-10 h-10 rounded-full transition-all duration-150"
+            style={{
+              color: isLoggedIn ? "#059669" : "rgba(0,0,0,0.6)",
+              backgroundColor: isLoggedIn ? "rgba(5,150,105,0.1)" : "transparent",
+            }}
+            aria-label={isLoggedIn ? "Cerrar sesión" : "Iniciar sesión"}
+          >
             <UserIcon />
           </button>
           <button
+            onClick={onCartClick}
             className="relative flex items-center gap-2 px-4 py-2 rounded-lg font-bold text-white text-sm transition-all hover:brightness-110 active:scale-95"
             style={{ backgroundColor: "#E31837", fontFamily: "var(--font-display)" }}
           >
@@ -643,40 +660,6 @@ const STORES = [
     lng: -99.173,
   },
 ];
-
-function FieldError({ msg }: { msg?: string }) {
-  if (!msg) return null;
-  return (
-    <p className="flex items-center gap-1 mt-1.5 text-xs font-bold" style={{ color: "#E31837" }}>
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></svg>
-      {msg}
-    </p>
-  );
-}
-
-function Label({ children, required }: { children: React.ReactNode; required?: boolean }) {
-  return (
-    <label className="flex items-center gap-1 text-sm font-bold text-neutral-900/80 mb-1.5" style={{ fontFamily: "var(--font-display)" }}>
-      {children}
-      {required && <span style={{ color: "#E31837" }}>*</span>}
-    </label>
-  );
-}
-
-function inputStyle(hasError: boolean): React.CSSProperties {
-  return {
-    backgroundColor: "rgba(0,0,0,0.03)",
-    border: `1.5px solid ${hasError ? "#E31837" : "rgba(0,0,0,0.12)"}`,
-    color: "#1a1310",
-    fontFamily: "var(--font-body)",
-    boxShadow: hasError ? "0 0 0 3px rgba(227,24,55,0.15)" : "none",
-    transition: "border-color 0.15s, box-shadow 0.15s",
-  };
-}
-
-function selectStyle(hasError: boolean): React.CSSProperties {
-  return { ...inputStyle(hasError), backgroundImage: "none", appearance: "none" as const };
-}
 
 // Fake satellite map built with CSS layers to evoke an aerial tile view
 function SatelliteMapMock({ selectedStore, onSelect }: { selectedStore: number | null; onSelect: (id: number) => void }) {
@@ -1225,6 +1208,9 @@ export default function App() {
   const [cart, setCart] = useState<CartLine[]>([]);
   const [view, setView] = useState<View>("home");
   const [customizingItemId, setCustomizingItemId] = useState<number | null>(null);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [loggedInEmail, setLoggedInEmail] = useState<string | null>(null);
 
   const cartCount = cart.reduce((n, l) => n + l.quantity, 0);
   const addedIds = new Set(cart.filter((l) => !l.customization).map((l) => l.menuItemId));
@@ -1247,11 +1233,35 @@ export default function App() {
     setCart((prev) => [...prev, line]);
   }
 
+  function incrementLine(lineId: string) {
+    setCart((prev) => prev.map((l) => (l.id === lineId ? { ...l, quantity: l.quantity + 1 } : l)));
+  }
+
+  function decrementLine(lineId: string) {
+    setCart((prev) =>
+      prev.flatMap((l) => {
+        if (l.id !== lineId) return [l];
+        return l.quantity > 1 ? [{ ...l, quantity: l.quantity - 1 }] : [];
+      })
+    );
+  }
+
+  function removeLine(lineId: string) {
+    setCart((prev) => prev.filter((l) => l.id !== lineId));
+  }
+
   const customizingPizza = customizingItemId !== null ? MENU_ITEMS.find((i) => i.id === customizingItemId) ?? null : null;
 
   return (
     <div className="min-h-screen flex flex-col" style={{ backgroundColor: "#FFFFFF" }}>
-      <Header cartCount={cartCount} activeView={view} onNav={setView} />
+      <Header
+        cartCount={cartCount}
+        activeView={view}
+        onNav={setView}
+        isLoggedIn={loggedInEmail !== null}
+        onAccountClick={() => (loggedInEmail !== null ? setLoggedInEmail(null) : setIsLoginOpen(true))}
+        onCartClick={() => setIsCartOpen(true)}
+      />
       {view === "home" ? (
         <HomePage onAddSimple={addSimpleItem} onOrderNow={() => setView("menu")} onPersonalize={setCustomizingItemId} addedIds={addedIds} />
       ) : view === "menu" ? (
@@ -1267,6 +1277,33 @@ export default function App() {
             addCustomPizza(line);
             setCustomizingItemId(null);
           }}
+        />
+      )}
+      {isCartOpen && (
+        <CartDrawer
+          cart={cart}
+          onClose={() => setIsCartOpen(false)}
+          onIncrement={incrementLine}
+          onDecrement={decrementLine}
+          onRemove={removeLine}
+          onCheckout={() => {
+            setIsCartOpen(false);
+            setView("address");
+          }}
+          onBrowseMenu={() => {
+            setIsCartOpen(false);
+            setView("menu");
+          }}
+        />
+      )}
+      {isLoginOpen && (
+        <LoginModal
+          onClose={() => setIsLoginOpen(false)}
+          onLogin={(email) => {
+            setLoggedInEmail(email);
+            setIsLoginOpen(false);
+          }}
+          onGuest={() => setIsLoginOpen(false)}
         />
       )}
     </div>
