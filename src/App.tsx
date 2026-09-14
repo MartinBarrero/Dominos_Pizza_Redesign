@@ -3,7 +3,7 @@ import type React from "react";
 import { MENU_ITEMS, type MenuItem, type Category } from "./menuData";
 import { describeCustomization, type CartLine } from "./cart";
 import PizzaWizard from "./PizzaWizard";
-import logo from "./assets/logo.png";
+import { logoDataUri as logo } from "./assets/logo";
 
 // ─── Data ───────────────────────────────────────────────────────────────────
 
@@ -100,9 +100,9 @@ function Header({
       {/* Main row */}
       <div className="max-w-screen-xl mx-auto flex items-center justify-between px-6 py-3 gap-6">
         <button onClick={() => onNav("home")} className="flex items-center gap-2 shrink-0">
-          <img src={logo} alt="Dóminos Pizza" className="w-9 h-9 object-contain" />
+          <img src={logo} alt="Domino's Pizza" className="w-9 h-9 object-contain" />
           <span className="text-white font-black text-2xl tracking-tight" style={{ fontFamily: "var(--font-display)" }}>
-            Dóminos <span style={{ color: "#E31837" }}>Pizza</span>
+            Domino's <span style={{ color: "#E31837" }}>Pizza</span>
           </span>
         </button>
 
@@ -198,13 +198,6 @@ function Hero({ onOrder }: { onOrder: () => void }) {
           </div>
         </div>
       </div>
-      <div className="hidden lg:flex absolute right-12 top-1/2 -translate-y-1/2 z-10 flex-col items-center gap-3 opacity-90">
-        <div className="w-36 h-36 rounded-full flex items-center justify-center bg-white" style={{ boxShadow: "0 0 60px rgba(227,24,55,0.4)" }}>
-          <img src={logo} alt="Dóminos Pizza" className="w-24 h-24 object-contain" />
-        </div>
-        <span className="text-white font-black text-2xl tracking-tight" style={{ fontFamily: "var(--font-display)" }}>Dóminos</span>
-        <span className="text-white/45 text-xs tracking-widest uppercase font-bold">Desde 1960</span>
-      </div>
     </section>
   );
 }
@@ -249,7 +242,7 @@ function WhyUs() {
     <section className="w-full py-20" style={{ backgroundColor: "#100003" }}>
       <div className="max-w-screen-xl mx-auto px-6">
         <h2 className="text-4xl font-black text-white mb-12 text-center" style={{ fontFamily: "var(--font-display)" }}>
-          ¿Por qué <span style={{ color: "#E31837" }}>Dóminos Pizza</span>?
+          ¿Por qué <span style={{ color: "#E31837" }}>Domino's Pizza</span>?
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {items.map((item) => (
@@ -291,8 +284,8 @@ function Footer() {
       <div className="max-w-screen-xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-10">
         <div className="col-span-2 md:col-span-1">
           <div className="flex items-center gap-2 mb-4">
-            <img src={logo} alt="Dóminos Pizza" className="w-8 h-8 object-contain" />
-            <span className="text-white font-black text-xl" style={{ fontFamily: "var(--font-display)" }}>Dóminos Pizza</span>
+            <img src={logo} alt="Domino's Pizza" className="w-8 h-8 object-contain" />
+            <span className="text-white font-black text-xl" style={{ fontFamily: "var(--font-display)" }}>Domino's Pizza</span>
           </div>
           <p className="text-white/40 text-sm font-medium leading-relaxed">Masa artesanal, ingredientes frescos y pasión por la pizza desde 1960.</p>
         </div>
@@ -310,7 +303,7 @@ function Footer() {
         ))}
       </div>
       <div className="max-w-screen-xl mx-auto px-6 mt-10 pt-6 flex flex-wrap gap-4 items-center justify-between" style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}>
-        <p className="text-white/25 text-xs font-medium">© 2026 Dóminos Pizza. Todos los derechos reservados.</p>
+        <p className="text-white/25 text-xs font-medium">© 2026 Domino's Pizza. Todos los derechos reservados.</p>
         <div className="flex gap-4">
           {["Facebook", "Instagram", "TikTok", "Twitter"].map((s) => <a key={s} href="#" className="text-white/30 text-xs font-semibold hover:text-white/55 transition-colors">{s}</a>)}
         </div>
@@ -625,7 +618,7 @@ interface FormErrors {
 const STORES = [
   {
     id: 1,
-    name: "Dóminos Centro",
+    name: "Domino's Centro",
     address: "Av. Juárez 234, Centro Histórico",
     distance: "0.8 km",
     wait: "15–20 min",
@@ -636,7 +629,7 @@ const STORES = [
   },
   {
     id: 2,
-    name: "Dóminos Polanco",
+    name: "Domino's Polanco",
     address: "Presidente Masaryk 87, Polanco",
     distance: "2.3 km",
     wait: "10–15 min",
@@ -647,7 +640,7 @@ const STORES = [
   },
   {
     id: 3,
-    name: "Dóminos Roma Norte",
+    name: "Domino's Roma Norte",
     address: "Orizaba 101, Roma Norte",
     distance: "3.1 km",
     wait: "20–25 min",
@@ -658,7 +651,7 @@ const STORES = [
   },
   {
     id: 4,
-    name: "Dóminos Condesa",
+    name: "Domino's Condesa",
     address: "Tamaulipas 54, Hipódromo Condesa",
     distance: "3.6 km",
     wait: "15–20 min",
@@ -750,7 +743,7 @@ function SatelliteMapMock({ selectedStore, onSelect }: { selectedStore: number |
       <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.55) 100%)" }} />
 
       {/* Map attribution */}
-      <div className="absolute bottom-2 right-3 text-xs text-white/20 font-mono">© Dóminos Maps</div>
+      <div className="absolute bottom-2 right-3 text-xs text-white/20 font-mono">© Domino's Maps</div>
 
       {/* Store pins */}
       {[
@@ -780,7 +773,7 @@ function SatelliteMapMock({ selectedStore, onSelect }: { selectedStore: number |
                 }}
               >
                 <span>🍕</span>
-                <span>{store.name.replace("Dóminos ", "")}</span>
+                <span>{store.name.replace("Domino's ", "")}</span>
                 {!store.open && <span className="opacity-60">(Cerrada)</span>}
               </div>
               {/* Needle */}
@@ -1231,7 +1224,7 @@ function AddressPage({
               boxShadow: "0 4px 24px rgba(227,24,55,0.5)",
             }}
           >
-            {mode === "delivery" ? "Continuar al pago →" : `Recoger en ${STORES.find((s) => s.id === selectedStore)?.name.replace("Dóminos ", "") ?? "tienda"} →`}
+            {mode === "delivery" ? "Continuar al pago →" : `Recoger en ${STORES.find((s) => s.id === selectedStore)?.name.replace("Domino's ", "") ?? "tienda"} →`}
           </button>
 
           <p className="text-center text-xs text-white/30 font-medium">
