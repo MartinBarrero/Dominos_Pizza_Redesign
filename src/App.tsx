@@ -4,6 +4,7 @@ import { MENU_ITEMS, type MenuItem, type Category } from "./menuData";
 import { describeCustomization, type CartLine } from "./cart";
 import PizzaWizard from "./PizzaWizard";
 import { logoDataUri as logo } from "./assets/logo";
+import heroImg from "./assets/hero.jpg";
 
 // ─── Data ───────────────────────────────────────────────────────────────────
 
@@ -73,8 +74,6 @@ const NAV_LINKS: { label: string; view?: View }[] = [
   { label: "Promos" },
 ];
 
-const PROMOS = ["🔥 2×1 en martes", "🚀 Envío gratis en pedidos +$300", "🎁 Combo familiar $599"];
-
 function Header({
   cartCount,
   activeView,
@@ -87,21 +86,12 @@ function Header({
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header style={{ backgroundColor: "#1a0005", borderBottom: "2px solid #E31837" }} className="sticky top-0 z-50 w-full">
-      {/* Ticker */}
-      <div style={{ backgroundColor: "#E31837" }} className="w-full py-1.5 flex justify-center gap-10 px-6 flex-wrap">
-        {PROMOS.map((p) => (
-          <span key={p} className="text-white text-xs font-black tracking-widest uppercase whitespace-nowrap" style={{ fontFamily: "var(--font-display)" }}>
-            {p}
-          </span>
-        ))}
-      </div>
-
+    <header style={{ backgroundColor: "#FFFFFF", borderBottom: "2px solid #E31837" }} className="sticky top-0 z-50 w-full">
       {/* Main row */}
-      <div className="max-w-screen-xl mx-auto flex items-center justify-between px-6 py-3 gap-6">
-        <button onClick={() => onNav("home")} className="flex items-center gap-2 shrink-0">
-          <img src={logo} alt="Domino's Pizza" className="w-9 h-9 object-contain" />
-          <span className="text-white font-black text-2xl tracking-tight" style={{ fontFamily: "var(--font-display)" }}>
+      <div className="max-w-screen-xl mx-auto flex items-center justify-between px-6 py-5 gap-6">
+        <button onClick={() => onNav("home")} className="flex items-center gap-3 shrink-0">
+          <img src={logo} alt="Domino's Pizza" className="w-12 h-12 object-contain" />
+          <span className="text-neutral-900 font-black text-3xl tracking-tight" style={{ fontFamily: "var(--font-display)" }}>
             Domino's <span style={{ color: "#E31837" }}>Pizza</span>
           </span>
         </button>
@@ -116,8 +106,8 @@ function Header({
                 className="px-4 py-2 rounded-md text-sm font-bold transition-all duration-150"
                 style={{
                   fontFamily: "var(--font-display)",
-                  color: isActive ? "#fff" : "rgba(255,255,255,0.65)",
-                  backgroundColor: isActive ? "rgba(227,24,55,0.25)" : "transparent",
+                  color: isActive ? "#E31837" : "rgba(0,0,0,0.6)",
+                  backgroundColor: isActive ? "rgba(227,24,55,0.1)" : "transparent",
                   borderBottom: isActive ? "2px solid #E31837" : "2px solid transparent",
                 }}
               >
@@ -128,9 +118,8 @@ function Header({
         </nav>
 
         <div className="flex items-center gap-2">
-          <button className="hidden md:flex items-center gap-1.5 px-3 py-2 rounded-md text-white/60 hover:text-white hover:bg-white/10 transition-all duration-150">
+          <button className="hidden md:flex items-center justify-center w-10 h-10 rounded-full text-black/60 hover:text-black hover:bg-black/5 transition-all duration-150" aria-label="Mi cuenta">
             <UserIcon />
-            <span className="text-sm font-semibold" style={{ fontFamily: "var(--font-display)" }}>Mi cuenta</span>
           </button>
           <button
             className="relative flex items-center gap-2 px-4 py-2 rounded-lg font-bold text-white text-sm transition-all hover:brightness-110 active:scale-95"
@@ -144,7 +133,7 @@ function Header({
               </span>
             )}
           </button>
-          <button className="md:hidden p-2 text-white/70" onClick={() => setMobileOpen((v) => !v)}>
+          <button className="md:hidden p-2 text-black/70" onClick={() => setMobileOpen((v) => !v)}>
             <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
               {mobileOpen ? <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" /> : <path d="M4 6h16M4 12h16M4 18h16" strokeLinecap="round" />}
             </svg>
@@ -153,9 +142,9 @@ function Header({
       </div>
 
       {mobileOpen && (
-        <div className="md:hidden border-t border-white/10 px-6 pb-4 flex flex-col gap-1" style={{ backgroundColor: "#1a0005" }}>
+        <div className="md:hidden border-t border-black/10 px-6 pb-4 flex flex-col gap-1" style={{ backgroundColor: "#FFFFFF" }}>
           {NAV_LINKS.map(({ label, view }) => (
-            <button key={label} onClick={() => { view && onNav(view); setMobileOpen(false); }} className="py-2.5 text-sm font-bold text-white/80 hover:text-white border-b border-white/5 last:border-0 text-left" style={{ fontFamily: "var(--font-display)" }}>
+            <button key={label} onClick={() => { view && onNav(view); setMobileOpen(false); }} className="py-2.5 text-sm font-bold text-black/80 hover:text-black border-b border-black/5 last:border-0 text-left" style={{ fontFamily: "var(--font-display)" }}>
               {label}
             </button>
           ))}
@@ -170,7 +159,7 @@ function Header({
 function Hero({ onOrder }: { onOrder: () => void }) {
   return (
     <section className="relative w-full overflow-hidden" style={{ minHeight: "88vh" }}>
-      <img src="https://images.unsplash.com/photo-1593504049359-74330189a345?w=1800&h=900&fit=crop&auto=format" alt="Pizza recién horneada" className="absolute inset-0 w-full h-full object-cover object-center" />
+      <img src={heroImg} alt="Pizza recién horneada" className="absolute inset-0 w-full h-full object-cover object-center" />
       <div className="absolute inset-0" style={{ background: "linear-gradient(90deg, rgba(10,0,0,0.93) 0%, rgba(10,0,0,0.72) 52%, rgba(10,0,0,0.32) 100%)" }} />
       <div className="relative z-10 max-w-screen-xl mx-auto px-6 flex items-center h-full" style={{ minHeight: "88vh" }}>
         <div className="max-w-2xl py-20">
@@ -213,12 +202,12 @@ function HomeRecommendations({
 }) {
   const featured = MENU_ITEMS.filter((i) => i.category === "Pizzas").slice(0, 4);
   return (
-    <section className="w-full py-20" style={{ backgroundColor: "#0d0005" }}>
+    <section className="w-full py-20" style={{ backgroundColor: "#FFFFFF" }}>
       <div className="max-w-screen-xl mx-auto px-6">
         <div className="flex items-end justify-between mb-10 flex-wrap gap-4">
           <div>
             <p className="text-xs font-black tracking-widest uppercase mb-2" style={{ color: "#E31837", fontFamily: "var(--font-display)" }}>Nuestras estrellas</p>
-            <h2 className="text-5xl font-black text-white leading-none" style={{ fontFamily: "var(--font-display)" }}>Recomendaciones</h2>
+            <h2 className="text-5xl font-black text-neutral-900 leading-none" style={{ fontFamily: "var(--font-display)" }}>Recomendaciones</h2>
           </div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -239,17 +228,17 @@ function WhyUs() {
     { icon: "🎁", title: "Programa de puntos", desc: "Acumula puntos con cada pedido y canjéalos por pizzas gratis." },
   ];
   return (
-    <section className="w-full py-20" style={{ backgroundColor: "#100003" }}>
+    <section className="w-full py-20" style={{ backgroundColor: "#F7F4F3" }}>
       <div className="max-w-screen-xl mx-auto px-6">
-        <h2 className="text-4xl font-black text-white mb-12 text-center" style={{ fontFamily: "var(--font-display)" }}>
+        <h2 className="text-4xl font-black text-neutral-900 mb-12 text-center" style={{ fontFamily: "var(--font-display)" }}>
           ¿Por qué <span style={{ color: "#E31837" }}>Domino's Pizza</span>?
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {items.map((item) => (
-            <div key={item.title} className="flex flex-col gap-3 p-6 rounded-2xl" style={{ backgroundColor: "#1c0005", border: "1.5px solid rgba(227,24,55,0.15)" }}>
+            <div key={item.title} className="flex flex-col gap-3 p-6 rounded-2xl" style={{ backgroundColor: "#FFFFFF", border: "1.5px solid rgba(0,0,0,0.08)", boxShadow: "0 2px 16px rgba(0,0,0,0.05)" }}>
               <span className="text-4xl">{item.icon}</span>
-              <h3 className="text-lg font-black text-white" style={{ fontFamily: "var(--font-display)" }}>{item.title}</h3>
-              <p className="text-white/55 text-sm font-medium leading-relaxed">{item.desc}</p>
+              <h3 className="text-lg font-black text-neutral-900" style={{ fontFamily: "var(--font-display)" }}>{item.title}</h3>
+              <p className="text-neutral-900/55 text-sm font-medium leading-relaxed">{item.desc}</p>
             </div>
           ))}
         </div>
@@ -280,14 +269,14 @@ function CtaBanner({ onOrder }: { onOrder: () => void }) {
 
 function Footer() {
   return (
-    <footer className="w-full py-12" style={{ backgroundColor: "#0a0000", borderTop: "1.5px solid rgba(227,24,55,0.2)" }}>
+    <footer className="w-full py-12" style={{ backgroundColor: "#F7F4F3", borderTop: "1.5px solid rgba(227,24,55,0.2)" }}>
       <div className="max-w-screen-xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-10">
         <div className="col-span-2 md:col-span-1">
           <div className="flex items-center gap-2 mb-4">
             <img src={logo} alt="Domino's Pizza" className="w-8 h-8 object-contain" />
-            <span className="text-white font-black text-xl" style={{ fontFamily: "var(--font-display)" }}>Domino's Pizza</span>
+            <span className="text-neutral-900 font-black text-xl" style={{ fontFamily: "var(--font-display)" }}>Domino's Pizza</span>
           </div>
-          <p className="text-white/40 text-sm font-medium leading-relaxed">Masa artesanal, ingredientes frescos y pasión por la pizza desde 1960.</p>
+          <p className="text-neutral-900/50 text-sm font-medium leading-relaxed">Masa artesanal, ingredientes frescos y pasión por la pizza desde 1960.</p>
         </div>
         {[
           { title: "Compañía", links: ["Sobre nosotros", "Trabaja con nosotros", "Prensa", "Sostenibilidad"] },
@@ -295,17 +284,17 @@ function Footer() {
           { title: "Legal", links: ["Privacidad", "Términos de uso", "Cookies", "Accesibilidad"] },
         ].map((col) => (
           <div key={col.title}>
-            <h4 className="text-white font-black text-sm uppercase tracking-widest mb-4" style={{ fontFamily: "var(--font-display)" }}>{col.title}</h4>
+            <h4 className="text-neutral-900 font-black text-sm uppercase tracking-widest mb-4" style={{ fontFamily: "var(--font-display)" }}>{col.title}</h4>
             <ul className="flex flex-col gap-2">
-              {col.links.map((link) => <li key={link}><a href="#" className="text-white/40 text-sm font-medium hover:text-white/70 transition-colors">{link}</a></li>)}
+              {col.links.map((link) => <li key={link}><a href="#" className="text-neutral-900/50 text-sm font-medium hover:text-neutral-900/80 transition-colors">{link}</a></li>)}
             </ul>
           </div>
         ))}
       </div>
-      <div className="max-w-screen-xl mx-auto px-6 mt-10 pt-6 flex flex-wrap gap-4 items-center justify-between" style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}>
-        <p className="text-white/25 text-xs font-medium">© 2026 Domino's Pizza. Todos los derechos reservados.</p>
+      <div className="max-w-screen-xl mx-auto px-6 mt-10 pt-6 flex flex-wrap gap-4 items-center justify-between" style={{ borderTop: "1px solid rgba(0,0,0,0.08)" }}>
+        <p className="text-neutral-900/40 text-xs font-medium">© 2026 Domino's Pizza. Todos los derechos reservados.</p>
         <div className="flex gap-4">
-          {["Facebook", "Instagram", "TikTok", "Twitter"].map((s) => <a key={s} href="#" className="text-white/30 text-xs font-semibold hover:text-white/55 transition-colors">{s}</a>)}
+          {["Facebook", "Instagram", "TikTok", "Twitter"].map((s) => <a key={s} href="#" className="text-neutral-900/40 text-xs font-semibold hover:text-neutral-900/70 transition-colors">{s}</a>)}
         </div>
       </div>
     </footer>
@@ -330,7 +319,7 @@ function MenuCard({
   return (
     <article
       className="group relative flex flex-col rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
-      style={{ backgroundColor: "#1c0005", border: "1.5px solid rgba(227,24,55,0.18)", boxShadow: "0 2px 16px rgba(0,0,0,0.35)" }}
+      style={{ backgroundColor: "#FFFFFF", border: "1.5px solid rgba(0,0,0,0.08)", boxShadow: "0 2px 16px rgba(0,0,0,0.08)" }}
     >
       {/* Tag */}
       {item.tag && (
@@ -342,9 +331,8 @@ function MenuCard({
       )}
 
       {/* Image */}
-      <div className="relative overflow-hidden bg-[#2a0008]" style={{ height: "220px" }}>
+      <div className="relative overflow-hidden bg-[#f2ecea]" style={{ height: "220px" }}>
         <img src={item.img} alt={item.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-        <div className="absolute inset-0" style={{ background: "linear-gradient(to top, #1c0005 0%, transparent 55%)" }} />
       </div>
 
       {/* Body */}
@@ -352,29 +340,29 @@ function MenuCard({
         {item.popular && (
           <div className="flex items-center gap-1">
             {[...Array(5)].map((_, i) => <StarIcon key={i} />)}
-            <span className="text-white/45 text-xs ml-1 font-semibold">(128)</span>
+            <span className="text-neutral-900/45 text-xs ml-1 font-semibold">(128)</span>
           </div>
         )}
 
-        <h3 className="text-lg font-black text-white leading-snug" style={{ fontFamily: "var(--font-display)" }}>
+        <h3 className="text-lg font-black text-neutral-900 leading-snug" style={{ fontFamily: "var(--font-display)" }}>
           {item.name}
         </h3>
-        <p className="text-white/50 text-sm font-medium leading-relaxed flex-1">{item.desc}</p>
+        <p className="text-neutral-900/55 text-sm font-medium leading-relaxed flex-1">{item.desc}</p>
 
         {/* Price + CTA — always visible */}
-        <div className="flex items-center justify-between mt-3 pt-3 gap-2 flex-wrap" style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}>
+        <div className="flex items-center justify-between mt-3 pt-3 gap-2 flex-wrap" style={{ borderTop: "1px solid rgba(0,0,0,0.08)" }}>
           <div>
-            <span className="text-2xl font-black" style={{ color: "#FF3347", fontFamily: "var(--font-display)" }}>
+            <span className="text-2xl font-black" style={{ color: "#E31837", fontFamily: "var(--font-display)" }}>
               ${item.price}
             </span>
-            <span className="text-white/35 text-xs ml-1 font-medium">MXN</span>
+            <span className="text-neutral-900/35 text-xs ml-1 font-medium">MXN</span>
           </div>
           <div className="flex items-center gap-2">
             {item.category === "Pizzas" && (
               <button
                 onClick={onPersonalize}
                 className="px-3 py-2 rounded-lg font-black text-sm transition-all duration-150 active:scale-95"
-                style={{ backgroundColor: "transparent", border: "1.5px solid #006491", color: "#93C5FD", fontFamily: "var(--font-display)" }}
+                style={{ backgroundColor: "transparent", border: "1.5px solid #006491", color: "#006491", fontFamily: "var(--font-display)" }}
               >
                 Personalizar
               </button>
@@ -424,7 +412,7 @@ function MenuPage({
   ) as Record<Category, number>;
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: "#0d0005" }}>
+    <div className="min-h-screen" style={{ backgroundColor: "#FFFFFF" }}>
       {/* Page hero / banner */}
       <div
         className="w-full relative overflow-hidden"
@@ -488,7 +476,7 @@ function MenuPage({
       </div>
 
       {/* Filter tabs — sticky */}
-      <div className="sticky z-40 w-full" style={{ top: "var(--header-height, 96px)", backgroundColor: "#0d0005", borderBottom: "1.5px solid rgba(227,24,55,0.2)" }}>
+      <div className="sticky z-40 w-full" style={{ top: "var(--header-height, 96px)", backgroundColor: "#FFFFFF", borderBottom: "1.5px solid rgba(0,0,0,0.08)" }}>
         <div className="max-w-screen-xl mx-auto px-6">
           <div className="flex items-center gap-1 overflow-x-auto py-3" style={{ scrollbarWidth: "none" }}>
             {CATEGORIES.map((cat) => {
@@ -500,8 +488,8 @@ function MenuPage({
                   className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-black whitespace-nowrap transition-all duration-200 shrink-0"
                   style={{
                     fontFamily: "var(--font-display)",
-                    backgroundColor: isActive ? "#E31837" : "rgba(255,255,255,0.06)",
-                    color: isActive ? "#fff" : "rgba(255,255,255,0.55)",
+                    backgroundColor: isActive ? "#E31837" : "rgba(0,0,0,0.05)",
+                    color: isActive ? "#fff" : "rgba(0,0,0,0.55)",
                     boxShadow: isActive ? "0 2px 12px rgba(227,24,55,0.4)" : "none",
                   }}
                 >
@@ -510,8 +498,8 @@ function MenuPage({
                   <span
                     className="ml-0.5 px-1.5 py-0.5 rounded-full text-xs font-black"
                     style={{
-                      backgroundColor: isActive ? "rgba(255,255,255,0.25)" : "rgba(255,255,255,0.1)",
-                      color: isActive ? "#fff" : "rgba(255,255,255,0.45)",
+                      backgroundColor: isActive ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.08)",
+                      color: isActive ? "#fff" : "rgba(0,0,0,0.45)",
                     }}
                   >
                     {counts[cat]}
@@ -537,10 +525,10 @@ function MenuPage({
         <div className="flex items-center gap-4 mb-8">
           <span className="text-4xl">{CATEGORY_ICONS[activeCategory]}</span>
           <div>
-            <h2 className="text-3xl font-black text-white" style={{ fontFamily: "var(--font-display)" }}>
+            <h2 className="text-3xl font-black text-neutral-900" style={{ fontFamily: "var(--font-display)" }}>
               {activeCategory}
             </h2>
-            <p className="text-white/40 text-sm font-semibold">
+            <p className="text-neutral-900/40 text-sm font-semibold">
               {filtered.length} {filtered.length === 1 ? "producto" : "productos"}
               {search && ` para "${search}"`}
             </p>
@@ -550,7 +538,7 @@ function MenuPage({
         {filtered.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-24 gap-4">
             <span className="text-6xl opacity-40">🔍</span>
-            <p className="text-white/40 font-semibold text-lg">No encontramos resultados para "{search}"</p>
+            <p className="text-neutral-900/40 font-semibold text-lg">No encontramos resultados para "{search}"</p>
             <button onClick={() => setSearch("")} className="px-5 py-2 rounded-lg text-sm font-bold text-white" style={{ backgroundColor: "#E31837", fontFamily: "var(--font-display)" }}>
               Limpiar búsqueda
             </button>
@@ -665,7 +653,7 @@ const STORES = [
 function FieldError({ msg }: { msg?: string }) {
   if (!msg) return null;
   return (
-    <p className="flex items-center gap-1 mt-1.5 text-xs font-bold" style={{ color: "#FF3347" }}>
+    <p className="flex items-center gap-1 mt-1.5 text-xs font-bold" style={{ color: "#E31837" }}>
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></svg>
       {msg}
     </p>
@@ -674,7 +662,7 @@ function FieldError({ msg }: { msg?: string }) {
 
 function Label({ children, required }: { children: React.ReactNode; required?: boolean }) {
   return (
-    <label className="flex items-center gap-1 text-sm font-bold text-white/80 mb-1.5" style={{ fontFamily: "var(--font-display)" }}>
+    <label className="flex items-center gap-1 text-sm font-bold text-neutral-900/80 mb-1.5" style={{ fontFamily: "var(--font-display)" }}>
       {children}
       {required && <span style={{ color: "#E31837" }}>*</span>}
     </label>
@@ -683,9 +671,9 @@ function Label({ children, required }: { children: React.ReactNode; required?: b
 
 function inputStyle(hasError: boolean): React.CSSProperties {
   return {
-    backgroundColor: "rgba(255,255,255,0.05)",
-    border: `1.5px solid ${hasError ? "#E31837" : "rgba(255,255,255,0.14)"}`,
-    color: "#fff",
+    backgroundColor: "rgba(0,0,0,0.03)",
+    border: `1.5px solid ${hasError ? "#E31837" : "rgba(0,0,0,0.12)"}`,
+    color: "#1a1310",
     fontFamily: "var(--font-body)",
     boxShadow: hasError ? "0 0 0 3px rgba(227,24,55,0.15)" : "none",
     transition: "border-color 0.15s, box-shadow 0.15s",
@@ -876,9 +864,9 @@ function AddressPage({
   const subtotal = cart.reduce((s, l) => s + l.unitPrice * l.quantity, 0);
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: "#0d0005" }}>
+    <div className="min-h-screen" style={{ backgroundColor: "#FFFFFF" }}>
       {/* Breadcrumb / steps */}
-      <div style={{ backgroundColor: "#130002", borderBottom: "1px solid rgba(227,24,55,0.2)" }} className="w-full">
+      <div style={{ backgroundColor: "#F7F4F3", borderBottom: "1px solid rgba(227,24,55,0.2)" }} className="w-full">
         <div className="max-w-screen-xl mx-auto px-6 py-4 flex items-center gap-2">
           {[
             { label: "Carrito", step: 1, done: true },
@@ -892,8 +880,8 @@ function AddressPage({
                   className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-black shrink-0"
                   style={{
                     fontFamily: "var(--font-display)",
-                    backgroundColor: s.done ? "#059669" : s.active ? "#E31837" : "rgba(255,255,255,0.1)",
-                    color: s.done || s.active ? "#fff" : "rgba(255,255,255,0.3)",
+                    backgroundColor: s.done ? "#059669" : s.active ? "#E31837" : "rgba(0,0,0,0.08)",
+                    color: s.done || s.active ? "#fff" : "rgba(0,0,0,0.35)",
                   }}
                 >
                   {s.done ? "✓" : s.step}
@@ -902,14 +890,14 @@ function AddressPage({
                   className="text-sm font-bold"
                   style={{
                     fontFamily: "var(--font-display)",
-                    color: s.active ? "#fff" : s.done ? "#6EE7B7" : "rgba(255,255,255,0.3)",
+                    color: s.active ? "#E31837" : s.done ? "#059669" : "rgba(0,0,0,0.35)",
                   }}
                 >
                   {s.label}
                 </span>
               </div>
               {i < arr.length - 1 && (
-                <div className="w-8 h-px mx-1" style={{ backgroundColor: "rgba(255,255,255,0.1)" }} />
+                <div className="w-8 h-px mx-1" style={{ backgroundColor: "rgba(0,0,0,0.1)" }} />
               )}
             </div>
           ))}
@@ -921,7 +909,7 @@ function AddressPage({
         <div className="lg:col-span-2 flex flex-col gap-6">
 
           {/* Mode toggle */}
-          <div className="flex gap-0 rounded-2xl overflow-hidden p-1" style={{ backgroundColor: "rgba(255,255,255,0.05)", border: "1.5px solid rgba(255,255,255,0.1)" }}>
+          <div className="flex gap-0 rounded-2xl overflow-hidden p-1" style={{ backgroundColor: "rgba(0,0,0,0.03)", border: "1.5px solid rgba(0,0,0,0.08)" }}>
             {(["delivery", "pickup"] as DeliveryMode[]).map((m) => {
               const active = mode === m;
               return (
@@ -932,7 +920,7 @@ function AddressPage({
                   style={{
                     fontFamily: "var(--font-display)",
                     backgroundColor: active ? "#E31837" : "transparent",
-                    color: active ? "#fff" : "rgba(255,255,255,0.45)",
+                    color: active ? "#fff" : "rgba(0,0,0,0.45)",
                     boxShadow: active ? "0 2px 12px rgba(227,24,55,0.4)" : "none",
                   }}
                 >
@@ -948,10 +936,10 @@ function AddressPage({
 
           {mode === "delivery" ? (
             /* ── Delivery form ── */
-            <div className="rounded-2xl p-7 flex flex-col gap-6" style={{ backgroundColor: "#180004", border: "1.5px solid rgba(227,24,55,0.18)" }}>
+            <div className="rounded-2xl p-7 flex flex-col gap-6" style={{ backgroundColor: "#FFFFFF", border: "1.5px solid rgba(0,0,0,0.08)", boxShadow: "0 2px 16px rgba(0,0,0,0.05)" }}>
               <div>
-                <h2 className="text-2xl font-black text-white mb-1" style={{ fontFamily: "var(--font-display)" }}>Dirección de entrega</h2>
-                <p className="text-white/45 text-sm font-medium">Los campos marcados con <span style={{ color: "#E31837" }}>*</span> son obligatorios.</p>
+                <h2 className="text-2xl font-black text-neutral-900 mb-1" style={{ fontFamily: "var(--font-display)" }}>Dirección de entrega</h2>
+                <p className="text-neutral-900/50 text-sm font-medium">Los campos marcados con <span style={{ color: "#E31837" }}>*</span> son obligatorios.</p>
               </div>
 
               {/* Row 1: Tipo de vía + Nombre de vía */}
@@ -968,10 +956,10 @@ function AddressPage({
                     >
                       <option value="" disabled>Seleccionar…</option>
                       {["Avenida", "Calle", "Boulevard", "Callejón", "Circuito", "Paseo", "Privada"].map((v) => (
-                        <option key={v} value={v} style={{ backgroundColor: "#1c0005" }}>{v}</option>
+                        <option key={v} value={v} style={{ backgroundColor: "#FFFFFF" }}>{v}</option>
                       ))}
                     </select>
-                    <svg className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-white/40" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="6 9 12 15 18 9" /></svg>
+                    <svg className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-900/40" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="6 9 12 15 18 9" /></svg>
                   </div>
                   <FieldError msg={(submitted || touched.tipoVia) ? errors.tipoVia : undefined} />
                 </div>
@@ -984,7 +972,7 @@ function AddressPage({
                     value={form.nombreVia}
                     onChange={(e) => handleChange("nombreVia", e.target.value)}
                     onBlur={() => handleBlur("nombreVia")}
-                    className="w-full px-4 py-3 rounded-xl text-sm outline-none placeholder:text-white/25"
+                    className="w-full px-4 py-3 rounded-xl text-sm outline-none placeholder:text-neutral-900/35"
                     style={inputStyle(!!errors.nombreVia && (submitted || !!touched.nombreVia))}
                   />
                   <FieldError msg={(submitted || touched.nombreVia) ? errors.nombreVia : undefined} />
@@ -1001,7 +989,7 @@ function AddressPage({
                     value={form.numero}
                     onChange={(e) => handleChange("numero", e.target.value)}
                     onBlur={() => handleBlur("numero")}
-                    className="w-full px-4 py-3 rounded-xl text-sm outline-none placeholder:text-white/25"
+                    className="w-full px-4 py-3 rounded-xl text-sm outline-none placeholder:text-neutral-900/35"
                     style={inputStyle(!!errors.numero && (submitted || !!touched.numero))}
                   />
                   <FieldError msg={(submitted || touched.numero) ? errors.numero : undefined} />
@@ -1019,10 +1007,10 @@ function AddressPage({
                     >
                       <option value="" disabled>Seleccionar…</option>
                       {["Casa", "Departamento", "Oficina", "Local comercial", "Hotel", "Otro"].map((v) => (
-                        <option key={v} value={v} style={{ backgroundColor: "#1c0005" }}>{v}</option>
+                        <option key={v} value={v} style={{ backgroundColor: "#FFFFFF" }}>{v}</option>
                       ))}
                     </select>
-                    <svg className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-white/40" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="6 9 12 15 18 9" /></svg>
+                    <svg className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-900/40" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="6 9 12 15 18 9" /></svg>
                   </div>
                   <FieldError msg={(submitted || touched.tipoInmueble) ? errors.tipoInmueble : undefined} />
                 </div>
@@ -1037,7 +1025,7 @@ function AddressPage({
                     placeholder="Ej. Piso 3, Depto 12 (opcional)"
                     value={form.piso}
                     onChange={(e) => handleChange("piso", e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl text-sm outline-none placeholder:text-white/25"
+                    className="w-full px-4 py-3 rounded-xl text-sm outline-none placeholder:text-neutral-900/35"
                     style={inputStyle(false)}
                   />
                 </div>
@@ -1050,7 +1038,7 @@ function AddressPage({
                     value={form.colonia}
                     onChange={(e) => handleChange("colonia", e.target.value)}
                     onBlur={() => handleBlur("colonia")}
-                    className="w-full px-4 py-3 rounded-xl text-sm outline-none placeholder:text-white/25"
+                    className="w-full px-4 py-3 rounded-xl text-sm outline-none placeholder:text-neutral-900/35"
                     style={inputStyle(!!errors.colonia && (submitted || !!touched.colonia))}
                   />
                   <FieldError msg={(submitted || touched.colonia) ? errors.colonia : undefined} />
@@ -1065,10 +1053,10 @@ function AddressPage({
                   value={form.referencias}
                   onChange={(e) => handleChange("referencias", e.target.value)}
                   rows={3}
-                  className="w-full px-4 py-3 rounded-xl text-sm outline-none placeholder:text-white/25 resize-none"
+                  className="w-full px-4 py-3 rounded-xl text-sm outline-none placeholder:text-neutral-900/35 resize-none"
                   style={inputStyle(false)}
                 />
-                <p className="text-white/30 text-xs font-medium mt-1.5">
+                <p className="text-neutral-900/40 text-xs font-medium mt-1.5">
                   {form.referencias.length}/200 caracteres · Ayuda al repartidor a encontrarte
                 </p>
               </div>
@@ -1077,7 +1065,7 @@ function AddressPage({
               {submitted && hasErrors && (
                 <div className="flex items-start gap-3 px-4 py-3 rounded-xl" style={{ backgroundColor: "rgba(227,24,55,0.1)", border: "1.5px solid rgba(227,24,55,0.35)" }}>
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E31837" strokeWidth="2.5" className="shrink-0 mt-0.5"><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></svg>
-                  <p className="text-sm font-semibold" style={{ color: "#FF6677" }}>
+                  <p className="text-sm font-semibold" style={{ color: "#E31837" }}>
                     Revisa los campos marcados en rojo antes de continuar.
                   </p>
                 </div>
@@ -1085,10 +1073,10 @@ function AddressPage({
             </div>
           ) : (
             /* ── Pickup mode ── */
-            <div className="rounded-2xl overflow-hidden" style={{ backgroundColor: "#180004", border: "1.5px solid rgba(227,24,55,0.18)" }}>
+            <div className="rounded-2xl overflow-hidden" style={{ backgroundColor: "#FFFFFF", border: "1.5px solid rgba(0,0,0,0.08)", boxShadow: "0 2px 16px rgba(0,0,0,0.05)" }}>
               <div className="p-6 pb-4">
-                <h2 className="text-2xl font-black text-white mb-1" style={{ fontFamily: "var(--font-display)" }}>Tiendas cercanas</h2>
-                <p className="text-white/45 text-sm font-medium">Selecciona la sucursal donde recogerás tu pedido.</p>
+                <h2 className="text-2xl font-black text-neutral-900 mb-1" style={{ fontFamily: "var(--font-display)" }}>Tiendas cercanas</h2>
+                <p className="text-neutral-900/45 text-sm font-medium">Selecciona la sucursal donde recogerás tu pedido.</p>
               </div>
 
               {/* Map */}
@@ -1107,8 +1095,8 @@ function AddressPage({
                       disabled={!store.open}
                       className="flex items-start gap-4 p-4 rounded-xl text-left transition-all duration-200"
                       style={{
-                        backgroundColor: isSelected ? "rgba(227,24,55,0.15)" : "rgba(255,255,255,0.04)",
-                        border: `1.5px solid ${isSelected ? "#E31837" : "rgba(255,255,255,0.08)"}`,
+                        backgroundColor: isSelected ? "rgba(227,24,55,0.08)" : "rgba(0,0,0,0.02)",
+                        border: `1.5px solid ${isSelected ? "#E31837" : "rgba(0,0,0,0.08)"}`,
                         opacity: store.open ? 1 : 0.45,
                         cursor: store.open ? "pointer" : "not-allowed",
                       }}
@@ -1116,32 +1104,32 @@ function AddressPage({
                       {/* Radio */}
                       <div
                         className="w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 mt-0.5"
-                        style={{ borderColor: isSelected ? "#E31837" : "rgba(255,255,255,0.25)" }}
+                        style={{ borderColor: isSelected ? "#E31837" : "rgba(0,0,0,0.2)" }}
                       >
                         {isSelected && <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: "#E31837" }} />}
                       </div>
 
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <span className="font-black text-white text-base" style={{ fontFamily: "var(--font-display)" }}>{store.name}</span>
+                          <span className="font-black text-neutral-900 text-base" style={{ fontFamily: "var(--font-display)" }}>{store.name}</span>
                           <span
                             className="px-2 py-0.5 rounded-full text-xs font-black"
                             style={{
-                              backgroundColor: store.open ? "rgba(5,150,105,0.2)" : "rgba(255,255,255,0.08)",
-                              color: store.open ? "#6EE7B7" : "rgba(255,255,255,0.35)",
+                              backgroundColor: store.open ? "rgba(5,150,105,0.15)" : "rgba(0,0,0,0.06)",
+                              color: store.open ? "#059669" : "rgba(0,0,0,0.35)",
                               fontFamily: "var(--font-display)",
                             }}
                           >
                             {store.open ? "Abierta" : "Cerrada"}
                           </span>
                         </div>
-                        <p className="text-white/50 text-sm font-medium mt-0.5">{store.address}</p>
+                        <p className="text-neutral-900/50 text-sm font-medium mt-0.5">{store.address}</p>
                         <div className="flex items-center gap-4 mt-2 flex-wrap">
-                          <span className="flex items-center gap-1 text-xs font-bold text-white/45">
+                          <span className="flex items-center gap-1 text-xs font-bold text-neutral-900/45">
                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" /></svg>
                             {store.distance}
                           </span>
-                          <span className="flex items-center gap-1 text-xs font-bold" style={{ color: store.open ? "#FCD34D" : "rgba(255,255,255,0.3)" }}>
+                          <span className="flex items-center gap-1 text-xs font-bold" style={{ color: store.open ? "#B45309" : "rgba(0,0,0,0.3)" }}>
                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
                             {store.open ? `Listo en ${store.wait}` : store.hours}
                           </span>
@@ -1164,24 +1152,24 @@ function AddressPage({
         {/* ── Right: order summary + CTA ── */}
         <div className="flex flex-col gap-4 lg:sticky lg:top-36">
           {/* Summary card */}
-          <div className="rounded-2xl p-6" style={{ backgroundColor: "#180004", border: "1.5px solid rgba(227,24,55,0.18)" }}>
-            <h3 className="text-lg font-black text-white mb-4" style={{ fontFamily: "var(--font-display)" }}>Resumen del pedido</h3>
+          <div className="rounded-2xl p-6" style={{ backgroundColor: "#FFFFFF", border: "1.5px solid rgba(0,0,0,0.08)", boxShadow: "0 2px 16px rgba(0,0,0,0.05)" }}>
+            <h3 className="text-lg font-black text-neutral-900 mb-4" style={{ fontFamily: "var(--font-display)" }}>Resumen del pedido</h3>
             <div className="flex flex-col gap-3 mb-4">
               {cart.length === 0 ? (
-                <p className="text-white/40 text-sm font-medium">Tu carrito está vacío.</p>
+                <p className="text-neutral-900/40 text-sm font-medium">Tu carrito está vacío.</p>
               ) : (
                 cart.map((line) => {
                   const customizationLabel = describeCustomization(line.customization);
                   return (
                     <div key={line.id} className="flex items-start justify-between gap-3">
                       <div>
-                        <p className="text-sm font-bold text-white">
+                        <p className="text-sm font-bold text-neutral-900">
                           {line.quantity > 1 ? `${line.quantity}× ` : ""}
                           {line.name}
                         </p>
-                        {customizationLabel && <p className="text-xs text-white/40 font-medium">{customizationLabel}</p>}
+                        {customizationLabel && <p className="text-xs text-neutral-900/40 font-medium">{customizationLabel}</p>}
                       </div>
-                      <span className="text-sm font-black shrink-0" style={{ color: "#FF3347", fontFamily: "var(--font-display)" }}>
+                      <span className="text-sm font-black shrink-0" style={{ color: "#E31837", fontFamily: "var(--font-display)" }}>
                         ${line.unitPrice * line.quantity}
                       </span>
                     </div>
@@ -1189,27 +1177,27 @@ function AddressPage({
                 })
               )}
             </div>
-            <div className="flex flex-col gap-2 pt-4" style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}>
-              <div className="flex justify-between text-sm text-white/50 font-medium">
+            <div className="flex flex-col gap-2 pt-4" style={{ borderTop: "1px solid rgba(0,0,0,0.08)" }}>
+              <div className="flex justify-between text-sm text-neutral-900/50 font-medium">
                 <span>Subtotal</span><span>${subtotal}</span>
               </div>
-              <div className="flex justify-between text-sm font-medium" style={{ color: "#6EE7B7" }}>
+              <div className="flex justify-between text-sm font-medium" style={{ color: "#059669" }}>
                 <span>Envío</span><span>Gratis</span>
               </div>
-              <div className="flex justify-between text-base font-black text-white mt-1">
+              <div className="flex justify-between text-base font-black text-neutral-900 mt-1">
                 <span style={{ fontFamily: "var(--font-display)" }}>Total</span>
-                <span style={{ color: "#FF3347", fontFamily: "var(--font-display)" }}>${subtotal}</span>
+                <span style={{ color: "#E31837", fontFamily: "var(--font-display)" }}>${subtotal}</span>
               </div>
             </div>
           </div>
 
           {/* Delivery estimate */}
           {mode === "delivery" && (
-            <div className="flex items-center gap-3 px-4 py-3 rounded-xl" style={{ backgroundColor: "rgba(0,100,145,0.15)", border: "1px solid rgba(0,100,145,0.35)" }}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+            <div className="flex items-center gap-3 px-4 py-3 rounded-xl" style={{ backgroundColor: "rgba(0,100,145,0.08)", border: "1px solid rgba(0,100,145,0.25)" }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#006491" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
               <div>
-                <p className="text-xs font-black text-white/70" style={{ fontFamily: "var(--font-display)" }}>Tiempo estimado de entrega</p>
-                <p className="text-sm font-black" style={{ color: "#93C5FD" }}>25 – 35 minutos</p>
+                <p className="text-xs font-black text-neutral-900/70" style={{ fontFamily: "var(--font-display)" }}>Tiempo estimado de entrega</p>
+                <p className="text-sm font-black" style={{ color: "#006491" }}>25 – 35 minutos</p>
               </div>
             </div>
           )}
@@ -1227,9 +1215,9 @@ function AddressPage({
             {mode === "delivery" ? "Continuar al pago →" : `Recoger en ${STORES.find((s) => s.id === selectedStore)?.name.replace("Domino's ", "") ?? "tienda"} →`}
           </button>
 
-          <p className="text-center text-xs text-white/30 font-medium">
+          <p className="text-center text-xs text-neutral-900/40 font-medium">
             Al continuar aceptas nuestros{" "}
-            <a href="#" className="underline hover:text-white/50">Términos de servicio</a>
+            <a href="#" className="underline hover:text-neutral-900/50">Términos de servicio</a>
           </p>
         </div>
       </div>
@@ -1268,7 +1256,7 @@ export default function App() {
   const customizingPizza = customizingItemId !== null ? MENU_ITEMS.find((i) => i.id === customizingItemId) ?? null : null;
 
   return (
-    <div className="min-h-screen flex flex-col" style={{ backgroundColor: "#0d0005" }}>
+    <div className="min-h-screen flex flex-col" style={{ backgroundColor: "#FFFFFF" }}>
       <Header cartCount={cartCount} activeView={view} onNav={setView} />
       {view === "home" ? (
         <HomePage onAddSimple={addSimpleItem} onOrderNow={() => setView("menu")} onPersonalize={setCustomizingItemId} addedIds={addedIds} />

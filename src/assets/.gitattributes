@@ -1,0 +1,4 @@
+# Assets imported directly by the app must be committed as normal git
+# blobs, not Git LFS pointers — Vercel's default build doesn't resolve
+# LFS objects, which breaks any image referenced from src/.
+* -filter -diff -merge -text

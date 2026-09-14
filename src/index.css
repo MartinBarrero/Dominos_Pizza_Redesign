@@ -9,7 +9,7 @@
   --color-brand-red-light: #E8415B;
   --color-brand-blue: #006491;
   --color-brand-blue-light: #599AB7;
-  --color-surface: #111111;
+  --color-surface: #FFFFFF;
 }
 
 * {
@@ -21,8 +21,8 @@
 
 body {
   font-family: var(--font-body);
-  background-color: #0d0d0d;
-  color: #fff;
+  background-color: #FFFFFF;
+  color: #1a1310;
 }
 
 h1, h2, h3, h4 {
