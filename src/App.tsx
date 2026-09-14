@@ -163,18 +163,12 @@ function Hero({ onOrder }: { onOrder: () => void }) {
       <div className="absolute inset-0" style={{ background: "linear-gradient(90deg, rgba(10,0,0,0.93) 0%, rgba(10,0,0,0.72) 52%, rgba(10,0,0,0.32) 100%)" }} />
       <div className="relative z-10 max-w-screen-xl mx-auto px-6 flex items-center h-full" style={{ minHeight: "88vh" }}>
         <div className="max-w-2xl py-20">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-black tracking-widest uppercase mb-6" style={{ backgroundColor: "#006491", color: "#fff", fontFamily: "var(--font-display)" }}>
-            🔥 Promo del día — Solo hoy
-          </div>
           <h1 className="text-6xl md:text-7xl font-black leading-none tracking-tight mb-4 text-white" style={{ fontFamily: "var(--font-display)" }}>
-            La pizza que<br /><span style={{ color: "#E31837" }}>mereces</span>,<br />en 30 min.
+            No puedes decir<br />Domino's sin decir<br /><span style={{ color: "#E31837" }}>mmm</span>.
           </h1>
-          <p className="text-xl text-white/75 font-semibold mb-4 max-w-lg leading-relaxed">
-            Ingredientes frescos, masa artesanal y entrega rápida a tu puerta. Sin complicaciones.
+          <p className="text-xl text-white/75 font-semibold mb-8 max-w-lg leading-relaxed">
+            Ingredientes frescos, masa artesanal y entrega rápida a tu puerta o la nuestra.
           </p>
-          <div className="inline-block px-5 py-2 rounded-lg text-white font-black text-lg mb-8" style={{ backgroundColor: "rgba(227,24,55,0.22)", border: "1.5px solid #E31837", fontFamily: "var(--font-display)" }}>
-            2×1 en toda la carta · Hoy hasta las 23:59
-          </div>
           <div className="flex flex-wrap gap-4 items-center">
             <button onClick={onOrder} className="px-8 py-4 rounded-xl font-black text-lg text-white transition-all hover:brightness-110 active:scale-95 shadow-lg" style={{ backgroundColor: "#E31837", fontFamily: "var(--font-display)", boxShadow: "0 4px 24px rgba(227,24,55,0.5)" }}>
               Pedir ahora →
