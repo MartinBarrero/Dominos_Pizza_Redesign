@@ -209,7 +209,15 @@ function Hero({ onOrder }: { onOrder: () => void }) {
   );
 }
 
-function HomeRecommendations({ onAdd, addedIds }: { onAdd: (id: number) => void; addedIds: Set<number> }) {
+function HomeRecommendations({
+  onAdd,
+  onPersonalize,
+  addedIds,
+}: {
+  onAdd: (id: number) => void;
+  onPersonalize: (id: number) => void;
+  addedIds: Set<number>;
+}) {
   const featured = MENU_ITEMS.filter((i) => i.category === "Pizzas").slice(0, 4);
   return (
     <section className="w-full py-20" style={{ backgroundColor: "#0d0005" }}>
@@ -222,7 +230,7 @@ function HomeRecommendations({ onAdd, addedIds }: { onAdd: (id: number) => void;
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {featured.map((item) => (
-            <MenuCard key={item.id} item={item} onAdd={() => onAdd(item.id)} added={addedIds.has(item.id)} />
+            <MenuCard key={item.id} item={item} onAdd={() => onAdd(item.id)} onPersonalize={() => onPersonalize(item.id)} added={addedIds.has(item.id)} />
           ))}
         </div>
       </div>
@@ -313,7 +321,17 @@ function Footer() {
 
 // ─── Menu Card ───────────────────────────────────────────────────────────────
 
-function MenuCard({ item, onAdd, added }: { item: MenuItem; onAdd: () => void; added: boolean }) {
+function MenuCard({
+  item,
+  onAdd,
+  onPersonalize,
+  added,
+}: {
+  item: MenuItem;
+  onAdd: () => void;
+  onPersonalize: () => void;
+  added: boolean;
+}) {
   const tagColor = item.tag ? (TAG_COLORS[item.tag] ?? "#D0021B") : "#D0021B";
 
   return (
@@ -351,24 +369,35 @@ function MenuCard({ item, onAdd, added }: { item: MenuItem; onAdd: () => void; a
         <p className="text-white/50 text-sm font-medium leading-relaxed flex-1">{item.desc}</p>
 
         {/* Price + CTA — always visible */}
-        <div className="flex items-center justify-between mt-3 pt-3" style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}>
+        <div className="flex items-center justify-between mt-3 pt-3 gap-2 flex-wrap" style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}>
           <div>
             <span className="text-2xl font-black" style={{ color: "#FF3347", fontFamily: "var(--font-display)" }}>
               ${item.price}
             </span>
             <span className="text-white/35 text-xs ml-1 font-medium">MXN</span>
           </div>
-          <button
-            onClick={onAdd}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-lg font-black text-sm text-white transition-all duration-150 active:scale-95"
-            style={{
-              backgroundColor: added ? "#1B3FAB" : "#D0021B",
-              fontFamily: "var(--font-display)",
-              boxShadow: added ? "0 2px 10px rgba(27,63,171,0.35)" : "0 2px 10px rgba(208,2,27,0.35)",
-            }}
-          >
-            {added ? <><span>✓</span><span>Agregado</span></> : <><PlusIcon /><span>Agregar</span></>}
-          </button>
+          <div className="flex items-center gap-2">
+            {item.category === "Pizzas" && (
+              <button
+                onClick={onPersonalize}
+                className="px-3 py-2 rounded-lg font-black text-sm transition-all duration-150 active:scale-95"
+                style={{ backgroundColor: "transparent", border: "1.5px solid #1B3FAB", color: "#93C5FD", fontFamily: "var(--font-display)" }}
+              >
+                Personalizar
+              </button>
+            )}
+            <button
+              onClick={onAdd}
+              className="flex items-center gap-1.5 px-4 py-2 rounded-lg font-black text-sm text-white transition-all duration-150 active:scale-95"
+              style={{
+                backgroundColor: added ? "#1B3FAB" : "#D0021B",
+                fontFamily: "var(--font-display)",
+                boxShadow: added ? "0 2px 10px rgba(27,63,171,0.35)" : "0 2px 10px rgba(208,2,27,0.35)",
+              }}
+            >
+              {added ? <><span>✓</span><span>Agregado</span></> : <><PlusIcon /><span>Agregar</span></>}
+            </button>
+          </div>
         </div>
       </div>
     </article>
@@ -377,7 +406,17 @@ function MenuCard({ item, onAdd, added }: { item: MenuItem; onAdd: () => void; a
 
 // ─── Menu Page ───────────────────────────────────────────────────────────────
 
-function MenuPage({ onAdd, addedIds, cartCount }: { onAdd: (id: number) => void; addedIds: Set<number>; cartCount: number }) {
+function MenuPage({
+  onAdd,
+  onPersonalize,
+  addedIds,
+  cartCount,
+}: {
+  onAdd: (id: number) => void;
+  onPersonalize: (id: number) => void;
+  addedIds: Set<number>;
+  cartCount: number;
+}) {
   const [activeCategory, setActiveCategory] = useState<Category>("Pizzas");
   const [search, setSearch] = useState("");
 
@@ -526,7 +565,7 @@ function MenuPage({ onAdd, addedIds, cartCount }: { onAdd: (id: number) => void;
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {filtered.map((item) => (
-              <MenuCard key={item.id} item={item} onAdd={() => onAdd(item.id)} added={addedIds.has(item.id)} />
+              <MenuCard key={item.id} item={item} onAdd={() => onAdd(item.id)} onPersonalize={() => onPersonalize(item.id)} added={addedIds.has(item.id)} />
             ))}
           </div>
         )}
@@ -542,16 +581,18 @@ function MenuPage({ onAdd, addedIds, cartCount }: { onAdd: (id: number) => void;
 function HomePage({
   onAddSimple,
   onOrderNow,
+  onPersonalize,
   addedIds,
 }: {
   onAddSimple: (id: number) => void;
   onOrderNow: () => void;
+  onPersonalize: (id: number) => void;
   addedIds: Set<number>;
 }) {
   return (
     <>
       <Hero onOrder={onOrderNow} />
-      <HomeRecommendations onAdd={onAddSimple} addedIds={addedIds} />
+      <HomeRecommendations onAdd={onAddSimple} onPersonalize={onPersonalize} addedIds={addedIds} />
       <WhyUs />
       <CtaBanner onOrder={onOrderNow} />
       <Footer />
@@ -1200,6 +1241,7 @@ function AddressPage({
 export default function App() {
   const [cart, setCart] = useState<CartLine[]>([]);
   const [view, setView] = useState<View>("home");
+  const [customizingItemId, setCustomizingItemId] = useState<number | null>(null);
 
   const cartCount = cart.reduce((n, l) => n + l.quantity, 0);
   const addedIds = new Set(cart.filter((l) => !l.customization).map((l) => l.menuItemId));
@@ -1222,9 +1264,9 @@ export default function App() {
     <div className="min-h-screen flex flex-col" style={{ backgroundColor: "#0d0005" }}>
       <Header cartCount={cartCount} activeView={view} onNav={setView} />
       {view === "home" ? (
-        <HomePage onAddSimple={addSimpleItem} onOrderNow={() => setView("menu")} addedIds={addedIds} />
+        <HomePage onAddSimple={addSimpleItem} onOrderNow={() => setView("menu")} onPersonalize={setCustomizingItemId} addedIds={addedIds} />
       ) : view === "menu" ? (
-        <MenuPage onAdd={addSimpleItem} addedIds={addedIds} cartCount={cartCount} />
+        <MenuPage onAdd={addSimpleItem} onPersonalize={setCustomizingItemId} addedIds={addedIds} cartCount={cartCount} />
       ) : (
         <AddressPage cart={cart} onContinue={() => alert("¡Pedido confirmado! Gracias por tu orden.")} cartCount={cartCount} />
       )}
