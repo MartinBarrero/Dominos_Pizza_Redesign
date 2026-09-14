@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Nunito:wght@400;500;600;700&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --font-display: 'Montserrat', sans-serif;
+  --font-body: 'Nunito', sans-serif;
+  --color-brand-red: #D0021B;
+  --color-brand-red-dark: #A80016;
+  --color-brand-red-light: #FF1A30;
+  --color-brand-blue: #1B3FAB;
+  --color-brand-blue-light: #2E57D4;
+  --color-surface: #111111;
+}
+
+* {
+  scrollbar-width: none;
+}
+*::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: #0d0d0d;
+  color: #fff;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+}

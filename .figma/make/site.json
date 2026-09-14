@@ -1,0 +1,10 @@
+{
+  "description": "Offers a user-friendly online platform to browse, select, and order pizzas with clear promotions and easy navigation for a seamless ordering experience.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
