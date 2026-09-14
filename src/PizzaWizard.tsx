@@ -41,6 +41,7 @@ export default function PizzaWizard({ pizza, onClose, onAdd }: PizzaWizardProps)
   const totalPrice = unitPrice * quantity;
   const displayName = secondHalf ? `${pizza.name} / ${secondHalf.name}` : pizza.name;
   const canAdvanceFromStep1 = !isHalfHalf || secondHalfId !== null;
+  const toppingsTotal = extraToppingIds.reduce((sum, id) => sum + (EXTRA_TOPPINGS.find((t) => t.id === id)?.price ?? 0), 0);
 
   function toggleTopping(id: string) {
     setExtraToppingIds((prev) => (prev.includes(id) ? prev.filter((t) => t !== id) : [...prev, id]));
@@ -257,7 +258,7 @@ export default function PizzaWizard({ pizza, onClose, onAdd }: PizzaWizardProps)
                 {extraToppingIds.length > 0 && (
                   <div className="flex justify-between text-sm font-medium text-white/60">
                     <span>{extraToppingIds.length} ingrediente{extraToppingIds.length > 1 ? "s" : ""} extra</span>
-                    <span>+${extraToppingIds.length * 20}</span>
+                    <span>+${toppingsTotal}</span>
                   </div>
                 )}
                 <div className="flex justify-between text-base font-black text-white mt-2 pt-2" style={{ borderTop: "1px solid rgba(255,255,255,0.1)" }}>
