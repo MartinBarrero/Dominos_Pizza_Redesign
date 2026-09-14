@@ -1178,20 +1178,23 @@ function AddressPage({
               {cart.length === 0 ? (
                 <p className="text-white/40 text-sm font-medium">Tu carrito está vacío.</p>
               ) : (
-                cart.map((line) => (
-                  <div key={line.id} className="flex items-start justify-between gap-3">
-                    <div>
-                      <p className="text-sm font-bold text-white">
-                        {line.quantity > 1 ? `${line.quantity}× ` : ""}
-                        {line.name}
-                      </p>
-                      <p className="text-xs text-white/40 font-medium">{describeCustomization(line.customization) ?? "—"}</p>
+                cart.map((line) => {
+                  const customizationLabel = describeCustomization(line.customization);
+                  return (
+                    <div key={line.id} className="flex items-start justify-between gap-3">
+                      <div>
+                        <p className="text-sm font-bold text-white">
+                          {line.quantity > 1 ? `${line.quantity}× ` : ""}
+                          {line.name}
+                        </p>
+                        {customizationLabel && <p className="text-xs text-white/40 font-medium">{customizationLabel}</p>}
+                      </div>
+                      <span className="text-sm font-black shrink-0" style={{ color: "#FF3347", fontFamily: "var(--font-display)" }}>
+                        ${line.unitPrice * line.quantity}
+                      </span>
                     </div>
-                    <span className="text-sm font-black shrink-0" style={{ color: "#FF3347", fontFamily: "var(--font-display)" }}>
-                      ${line.unitPrice * line.quantity}
-                    </span>
-                  </div>
-                ))
+                  );
+                })
               )}
             </div>
             <div className="flex flex-col gap-2 pt-4" style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}>
