@@ -81,7 +81,7 @@ export default function PizzaWizard({ pizza, onClose, onAdd }: PizzaWizardProps)
   return (
     <div className="fixed inset-0 z-[60] overflow-y-auto" style={{ backgroundColor: "#0d0005" }}>
       {/* Progress bar */}
-      <div style={{ backgroundColor: "#130002", borderBottom: "1px solid rgba(208,2,27,0.2)" }} className="sticky top-0 z-10 w-full">
+      <div style={{ backgroundColor: "#130002", borderBottom: "1px solid rgba(227,24,55,0.2)" }} className="sticky top-0 z-10 w-full">
         <div className="max-w-screen-xl mx-auto px-6 py-4 flex items-center justify-between gap-4">
           <div className="flex items-center gap-2 flex-wrap">
             {STEP_LABELS.map((label, i) => {
@@ -95,7 +95,7 @@ export default function PizzaWizard({ pizza, onClose, onAdd }: PizzaWizardProps)
                       className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-black shrink-0"
                       style={{
                         fontFamily: "var(--font-display)",
-                        backgroundColor: done ? "#059669" : active ? "#D0021B" : "rgba(255,255,255,0.1)",
+                        backgroundColor: done ? "#059669" : active ? "#E31837" : "rgba(255,255,255,0.1)",
                         color: done || active ? "#fff" : "rgba(255,255,255,0.3)",
                       }}
                     >
@@ -123,7 +123,7 @@ export default function PizzaWizard({ pizza, onClose, onAdd }: PizzaWizardProps)
 
       <div className="max-w-screen-xl mx-auto px-6 py-10 grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
         {/* Left: step content */}
-        <div className="lg:col-span-2 rounded-2xl p-7 flex flex-col gap-6" style={{ backgroundColor: "#180004", border: "1.5px solid rgba(208,2,27,0.18)" }}>
+        <div className="lg:col-span-2 rounded-2xl p-7 flex flex-col gap-6" style={{ backgroundColor: "#180004", border: "1.5px solid rgba(227,24,55,0.18)" }}>
           {step === 1 && (
             <div className="flex flex-col gap-6">
               <div>
@@ -134,10 +134,10 @@ export default function PizzaWizard({ pizza, onClose, onAdd }: PizzaWizardProps)
               <button
                 onClick={() => setIsHalfHalf((v) => !v)}
                 className="flex items-center justify-between px-5 py-4 rounded-xl transition-all duration-200"
-                style={{ backgroundColor: isHalfHalf ? "rgba(208,2,27,0.15)" : "rgba(255,255,255,0.05)", border: `1.5px solid ${isHalfHalf ? "#D0021B" : "rgba(255,255,255,0.12)"}` }}
+                style={{ backgroundColor: isHalfHalf ? "rgba(227,24,55,0.15)" : "rgba(255,255,255,0.05)", border: `1.5px solid ${isHalfHalf ? "#E31837" : "rgba(255,255,255,0.12)"}` }}
               >
                 <span className="text-sm font-bold text-white">¿Quieres mitad y mitad?</span>
-                <div className="w-11 h-6 rounded-full relative transition-all" style={{ backgroundColor: isHalfHalf ? "#D0021B" : "rgba(255,255,255,0.2)" }}>
+                <div className="w-11 h-6 rounded-full relative transition-all" style={{ backgroundColor: isHalfHalf ? "#E31837" : "rgba(255,255,255,0.2)" }}>
                   <div className="absolute top-0.5 w-5 h-5 rounded-full bg-white transition-all" style={{ left: isHalfHalf ? "22px" : "2px" }} />
                 </div>
               </button>
@@ -153,7 +153,7 @@ export default function PizzaWizard({ pizza, onClose, onAdd }: PizzaWizardProps)
                           key={p.id}
                           onClick={() => setSecondHalfId(p.id)}
                           className="flex items-center gap-3 p-3 rounded-xl text-left transition-all duration-200"
-                          style={{ backgroundColor: selected ? "rgba(208,2,27,0.15)" : "rgba(255,255,255,0.04)", border: `1.5px solid ${selected ? "#D0021B" : "rgba(255,255,255,0.08)"}` }}
+                          style={{ backgroundColor: selected ? "rgba(227,24,55,0.15)" : "rgba(255,255,255,0.04)", border: `1.5px solid ${selected ? "#E31837" : "rgba(255,255,255,0.08)"}` }}
                         >
                           <img src={p.img} alt={p.name} className="w-14 h-14 rounded-lg object-cover shrink-0" />
                           <div className="min-w-0">
@@ -187,7 +187,7 @@ export default function PizzaWizard({ pizza, onClose, onAdd }: PizzaWizardProps)
                         key={s}
                         onClick={() => setSize(s)}
                         className="flex flex-col items-center gap-1 px-3 py-4 rounded-xl transition-all duration-200"
-                        style={{ backgroundColor: selected ? "#D0021B" : "rgba(255,255,255,0.05)", border: `1.5px solid ${selected ? "#D0021B" : "rgba(255,255,255,0.12)"}` }}
+                        style={{ backgroundColor: selected ? "#E31837" : "rgba(255,255,255,0.05)", border: `1.5px solid ${selected ? "#E31837" : "rgba(255,255,255,0.12)"}` }}
                       >
                         <span className="text-sm font-black text-white">{s}</span>
                         <span className="text-xs font-bold" style={{ color: selected ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.4)" }}>{formatDelta(SIZE_DELTAS[s])}</span>
@@ -207,7 +207,7 @@ export default function PizzaWizard({ pizza, onClose, onAdd }: PizzaWizardProps)
                         key={d}
                         onClick={() => setDough(d)}
                         className="flex flex-col items-center gap-1 px-3 py-4 rounded-xl transition-all duration-200 text-center"
-                        style={{ backgroundColor: selected ? "#D0021B" : "rgba(255,255,255,0.05)", border: `1.5px solid ${selected ? "#D0021B" : "rgba(255,255,255,0.12)"}` }}
+                        style={{ backgroundColor: selected ? "#E31837" : "rgba(255,255,255,0.05)", border: `1.5px solid ${selected ? "#E31837" : "rgba(255,255,255,0.12)"}` }}
                       >
                         <span className="text-sm font-black text-white">{d}</span>
                         <span className="text-xs font-bold" style={{ color: selected ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.4)" }}>{formatDelta(DOUGH_DELTAS[d])}</span>
@@ -233,7 +233,7 @@ export default function PizzaWizard({ pizza, onClose, onAdd }: PizzaWizardProps)
                       key={t.id}
                       onClick={() => toggleTopping(t.id)}
                       className="flex flex-col items-center gap-1 px-3 py-4 rounded-xl transition-all duration-200 text-center"
-                      style={{ backgroundColor: selected ? "#D0021B" : "rgba(255,255,255,0.05)", border: `1.5px solid ${selected ? "#D0021B" : "rgba(255,255,255,0.12)"}` }}
+                      style={{ backgroundColor: selected ? "#E31837" : "rgba(255,255,255,0.05)", border: `1.5px solid ${selected ? "#E31837" : "rgba(255,255,255,0.12)"}` }}
                     >
                       <span className="text-sm font-black text-white">{t.name}</span>
                       <span className="text-xs font-bold" style={{ color: selected ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.4)" }}>+${t.price}</span>
@@ -304,7 +304,7 @@ export default function PizzaWizard({ pizza, onClose, onAdd }: PizzaWizardProps)
                 onClick={handleNext}
                 disabled={step === 1 && !canAdvanceFromStep1}
                 className="px-8 py-3 rounded-xl font-black text-sm text-white transition-all hover:brightness-110 active:scale-95 disabled:opacity-40 disabled:pointer-events-none"
-                style={{ backgroundColor: "#D0021B", fontFamily: "var(--font-display)" }}
+                style={{ backgroundColor: "#E31837", fontFamily: "var(--font-display)" }}
               >
                 Siguiente →
               </button>
@@ -312,7 +312,7 @@ export default function PizzaWizard({ pizza, onClose, onAdd }: PizzaWizardProps)
               <button
                 onClick={handleAddToCart}
                 className="px-8 py-3 rounded-xl font-black text-sm text-white transition-all hover:brightness-110 active:scale-95"
-                style={{ backgroundColor: "#D0021B", fontFamily: "var(--font-display)" }}
+                style={{ backgroundColor: "#E31837", fontFamily: "var(--font-display)" }}
               >
                 Agregar al carrito →
               </button>
@@ -322,7 +322,7 @@ export default function PizzaWizard({ pizza, onClose, onAdd }: PizzaWizardProps)
 
         {/* Right: fixed preview panel */}
         <div className="flex flex-col gap-4 lg:sticky lg:top-28">
-          <div className="rounded-2xl overflow-hidden" style={{ backgroundColor: "#180004", border: "1.5px solid rgba(208,2,27,0.18)" }}>
+          <div className="rounded-2xl overflow-hidden" style={{ backgroundColor: "#180004", border: "1.5px solid rgba(227,24,55,0.18)" }}>
             <div className="relative flex" style={{ height: "180px" }}>
               <img
                 src={pizza.img}

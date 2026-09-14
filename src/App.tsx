@@ -3,6 +3,7 @@ import type React from "react";
 import { MENU_ITEMS, type MenuItem, type Category } from "./menuData";
 import { describeCustomization, type CartLine } from "./cart";
 import PizzaWizard from "./PizzaWizard";
+import logo from "./assets/logo.png";
 
 // ─── Data ───────────────────────────────────────────────────────────────────
 
@@ -18,10 +19,10 @@ const CATEGORY_ICONS: Record<Category, string> = {
 };
 
 const TAG_COLORS: Record<string, string> = {
-  "La más pedida": "#D0021B",
+  "La más pedida": "#E31837",
   "Favorita del chef": "#7C3AED",
   Nuevo: "#059669",
-  "Oferta 2×1": "#1B3FAB",
+  "Oferta 2×1": "#006491",
   Premium: "#92400E",
   Picante: "#EA580C",
   Artesanal: "#0F766E",
@@ -86,9 +87,9 @@ function Header({
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header style={{ backgroundColor: "#1a0005", borderBottom: "2px solid #D0021B" }} className="sticky top-0 z-50 w-full">
+    <header style={{ backgroundColor: "#1a0005", borderBottom: "2px solid #E31837" }} className="sticky top-0 z-50 w-full">
       {/* Ticker */}
-      <div style={{ backgroundColor: "#D0021B" }} className="w-full py-1.5 flex justify-center gap-10 px-6 flex-wrap">
+      <div style={{ backgroundColor: "#E31837" }} className="w-full py-1.5 flex justify-center gap-10 px-6 flex-wrap">
         {PROMOS.map((p) => (
           <span key={p} className="text-white text-xs font-black tracking-widest uppercase whitespace-nowrap" style={{ fontFamily: "var(--font-display)" }}>
             {p}
@@ -99,11 +100,9 @@ function Header({
       {/* Main row */}
       <div className="max-w-screen-xl mx-auto flex items-center justify-between px-6 py-3 gap-6">
         <button onClick={() => onNav("home")} className="flex items-center gap-2 shrink-0">
-          <div className="w-9 h-9 rounded-full flex items-center justify-center" style={{ background: "#D0021B" }}>
-            <span className="text-white font-black text-base">🍕</span>
-          </div>
+          <img src={logo} alt="Dóminos Pizza" className="w-9 h-9 object-contain" />
           <span className="text-white font-black text-2xl tracking-tight" style={{ fontFamily: "var(--font-display)" }}>
-            Pizz<span style={{ color: "#D0021B" }}>ería</span> Napoli
+            Dóminos <span style={{ color: "#E31837" }}>Pizza</span>
           </span>
         </button>
 
@@ -118,8 +117,8 @@ function Header({
                 style={{
                   fontFamily: "var(--font-display)",
                   color: isActive ? "#fff" : "rgba(255,255,255,0.65)",
-                  backgroundColor: isActive ? "rgba(208,2,27,0.25)" : "transparent",
-                  borderBottom: isActive ? "2px solid #D0021B" : "2px solid transparent",
+                  backgroundColor: isActive ? "rgba(227,24,55,0.25)" : "transparent",
+                  borderBottom: isActive ? "2px solid #E31837" : "2px solid transparent",
                 }}
               >
                 {label}
@@ -135,12 +134,12 @@ function Header({
           </button>
           <button
             className="relative flex items-center gap-2 px-4 py-2 rounded-lg font-bold text-white text-sm transition-all hover:brightness-110 active:scale-95"
-            style={{ backgroundColor: "#D0021B", fontFamily: "var(--font-display)" }}
+            style={{ backgroundColor: "#E31837", fontFamily: "var(--font-display)" }}
           >
             <CartIcon />
             <span>Carrito</span>
             {cartCount > 0 && (
-              <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full text-xs font-black flex items-center justify-center text-white" style={{ backgroundColor: "#1B3FAB" }}>
+              <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full text-xs font-black flex items-center justify-center text-white" style={{ backgroundColor: "#006491" }}>
                 {cartCount}
               </span>
             )}
@@ -175,20 +174,20 @@ function Hero({ onOrder }: { onOrder: () => void }) {
       <div className="absolute inset-0" style={{ background: "linear-gradient(90deg, rgba(10,0,0,0.93) 0%, rgba(10,0,0,0.72) 52%, rgba(10,0,0,0.32) 100%)" }} />
       <div className="relative z-10 max-w-screen-xl mx-auto px-6 flex items-center h-full" style={{ minHeight: "88vh" }}>
         <div className="max-w-2xl py-20">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-black tracking-widest uppercase mb-6" style={{ backgroundColor: "#1B3FAB", color: "#fff", fontFamily: "var(--font-display)" }}>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-black tracking-widest uppercase mb-6" style={{ backgroundColor: "#006491", color: "#fff", fontFamily: "var(--font-display)" }}>
             🔥 Promo del día — Solo hoy
           </div>
           <h1 className="text-6xl md:text-7xl font-black leading-none tracking-tight mb-4 text-white" style={{ fontFamily: "var(--font-display)" }}>
-            La pizza que<br /><span style={{ color: "#D0021B" }}>mereces</span>,<br />en 30 min.
+            La pizza que<br /><span style={{ color: "#E31837" }}>mereces</span>,<br />en 30 min.
           </h1>
           <p className="text-xl text-white/75 font-semibold mb-4 max-w-lg leading-relaxed">
             Ingredientes frescos, masa artesanal y entrega rápida a tu puerta. Sin complicaciones.
           </p>
-          <div className="inline-block px-5 py-2 rounded-lg text-white font-black text-lg mb-8" style={{ backgroundColor: "rgba(208,2,27,0.22)", border: "1.5px solid #D0021B", fontFamily: "var(--font-display)" }}>
+          <div className="inline-block px-5 py-2 rounded-lg text-white font-black text-lg mb-8" style={{ backgroundColor: "rgba(227,24,55,0.22)", border: "1.5px solid #E31837", fontFamily: "var(--font-display)" }}>
             2×1 en toda la carta · Hoy hasta las 23:59
           </div>
           <div className="flex flex-wrap gap-4 items-center">
-            <button onClick={onOrder} className="px-8 py-4 rounded-xl font-black text-lg text-white transition-all hover:brightness-110 active:scale-95 shadow-lg" style={{ backgroundColor: "#D0021B", fontFamily: "var(--font-display)", boxShadow: "0 4px 24px rgba(208,2,27,0.5)" }}>
+            <button onClick={onOrder} className="px-8 py-4 rounded-xl font-black text-lg text-white transition-all hover:brightness-110 active:scale-95 shadow-lg" style={{ backgroundColor: "#E31837", fontFamily: "var(--font-display)", boxShadow: "0 4px 24px rgba(227,24,55,0.5)" }}>
               Pedir ahora →
             </button>
           </div>
@@ -200,11 +199,11 @@ function Hero({ onOrder }: { onOrder: () => void }) {
         </div>
       </div>
       <div className="hidden lg:flex absolute right-12 top-1/2 -translate-y-1/2 z-10 flex-col items-center gap-3 opacity-90">
-        <div className="w-36 h-36 rounded-full flex items-center justify-center" style={{ background: "radial-gradient(circle, #D0021B 0%, #7a0010 100%)", boxShadow: "0 0 60px rgba(208,2,27,0.4)" }}>
-          <div className="text-6xl">🍕</div>
+        <div className="w-36 h-36 rounded-full flex items-center justify-center bg-white" style={{ boxShadow: "0 0 60px rgba(227,24,55,0.4)" }}>
+          <img src={logo} alt="Dóminos Pizza" className="w-24 h-24 object-contain" />
         </div>
-        <span className="text-white font-black text-2xl tracking-tight" style={{ fontFamily: "var(--font-display)" }}>Napoli</span>
-        <span className="text-white/45 text-xs tracking-widest uppercase font-bold">Dal 1985</span>
+        <span className="text-white font-black text-2xl tracking-tight" style={{ fontFamily: "var(--font-display)" }}>Dóminos</span>
+        <span className="text-white/45 text-xs tracking-widest uppercase font-bold">Desde 1960</span>
       </div>
     </section>
   );
@@ -225,7 +224,7 @@ function HomeRecommendations({
       <div className="max-w-screen-xl mx-auto px-6">
         <div className="flex items-end justify-between mb-10 flex-wrap gap-4">
           <div>
-            <p className="text-xs font-black tracking-widest uppercase mb-2" style={{ color: "#D0021B", fontFamily: "var(--font-display)" }}>Nuestras estrellas</p>
+            <p className="text-xs font-black tracking-widest uppercase mb-2" style={{ color: "#E31837", fontFamily: "var(--font-display)" }}>Nuestras estrellas</p>
             <h2 className="text-5xl font-black text-white leading-none" style={{ fontFamily: "var(--font-display)" }}>Recomendaciones</h2>
           </div>
         </div>
@@ -250,11 +249,11 @@ function WhyUs() {
     <section className="w-full py-20" style={{ backgroundColor: "#100003" }}>
       <div className="max-w-screen-xl mx-auto px-6">
         <h2 className="text-4xl font-black text-white mb-12 text-center" style={{ fontFamily: "var(--font-display)" }}>
-          ¿Por qué <span style={{ color: "#D0021B" }}>Pizzería Napoli</span>?
+          ¿Por qué <span style={{ color: "#E31837" }}>Dóminos Pizza</span>?
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {items.map((item) => (
-            <div key={item.title} className="flex flex-col gap-3 p-6 rounded-2xl" style={{ backgroundColor: "#1c0005", border: "1.5px solid rgba(208,2,27,0.15)" }}>
+            <div key={item.title} className="flex flex-col gap-3 p-6 rounded-2xl" style={{ backgroundColor: "#1c0005", border: "1.5px solid rgba(227,24,55,0.15)" }}>
               <span className="text-4xl">{item.icon}</span>
               <h3 className="text-lg font-black text-white" style={{ fontFamily: "var(--font-display)" }}>{item.title}</h3>
               <p className="text-white/55 text-sm font-medium leading-relaxed">{item.desc}</p>
@@ -268,7 +267,7 @@ function WhyUs() {
 
 function CtaBanner({ onOrder }: { onOrder: () => void }) {
   return (
-    <section className="w-full py-20 relative overflow-hidden" style={{ backgroundColor: "#D0021B" }}>
+    <section className="w-full py-20 relative overflow-hidden" style={{ backgroundColor: "#E31837" }}>
       <div className="absolute -right-24 -top-24 w-96 h-96 rounded-full opacity-10 bg-white" />
       <div className="absolute -left-12 -bottom-20 w-64 h-64 rounded-full opacity-10 bg-white" />
       <div className="relative z-10 max-w-screen-xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
@@ -276,9 +275,9 @@ function CtaBanner({ onOrder }: { onOrder: () => void }) {
           <h2 className="text-5xl font-black text-white leading-tight" style={{ fontFamily: "var(--font-display)" }}>
             Tu primera orden con<br /><span style={{ color: "#FFD4D9" }}>20% de descuento</span>
           </h2>
-          <p className="text-white/75 font-semibold mt-3 text-lg">Usa el código <strong className="text-white">NAPOLI20</strong> al finalizar tu compra.</p>
+          <p className="text-white/75 font-semibold mt-3 text-lg">Usa el código <strong className="text-white">DOMINOS20</strong> al finalizar tu compra.</p>
         </div>
-        <button onClick={onOrder} className="shrink-0 px-10 py-4 rounded-xl font-black text-lg text-white transition-all hover:brightness-110 active:scale-95" style={{ backgroundColor: "#1B3FAB", fontFamily: "var(--font-display)", boxShadow: "0 4px 24px rgba(27,63,171,0.5)" }}>
+        <button onClick={onOrder} className="shrink-0 px-10 py-4 rounded-xl font-black text-lg text-white transition-all hover:brightness-110 active:scale-95" style={{ backgroundColor: "#006491", fontFamily: "var(--font-display)", boxShadow: "0 4px 24px rgba(0,100,145,0.5)" }}>
           Ordenar con descuento →
         </button>
       </div>
@@ -288,14 +287,14 @@ function CtaBanner({ onOrder }: { onOrder: () => void }) {
 
 function Footer() {
   return (
-    <footer className="w-full py-12" style={{ backgroundColor: "#0a0000", borderTop: "1.5px solid rgba(208,2,27,0.2)" }}>
+    <footer className="w-full py-12" style={{ backgroundColor: "#0a0000", borderTop: "1.5px solid rgba(227,24,55,0.2)" }}>
       <div className="max-w-screen-xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-10">
         <div className="col-span-2 md:col-span-1">
           <div className="flex items-center gap-2 mb-4">
-            <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: "#D0021B" }}><span className="text-sm">🍕</span></div>
-            <span className="text-white font-black text-xl" style={{ fontFamily: "var(--font-display)" }}>Pizzería Napoli</span>
+            <img src={logo} alt="Dóminos Pizza" className="w-8 h-8 object-contain" />
+            <span className="text-white font-black text-xl" style={{ fontFamily: "var(--font-display)" }}>Dóminos Pizza</span>
           </div>
-          <p className="text-white/40 text-sm font-medium leading-relaxed">Masa artesanal, ingredientes frescos y pasión por la pizza desde 1985.</p>
+          <p className="text-white/40 text-sm font-medium leading-relaxed">Masa artesanal, ingredientes frescos y pasión por la pizza desde 1960.</p>
         </div>
         {[
           { title: "Compañía", links: ["Sobre nosotros", "Trabaja con nosotros", "Prensa", "Sostenibilidad"] },
@@ -311,7 +310,7 @@ function Footer() {
         ))}
       </div>
       <div className="max-w-screen-xl mx-auto px-6 mt-10 pt-6 flex flex-wrap gap-4 items-center justify-between" style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}>
-        <p className="text-white/25 text-xs font-medium">© 2026 Pizzería Napoli. Todos los derechos reservados.</p>
+        <p className="text-white/25 text-xs font-medium">© 2026 Dóminos Pizza. Todos los derechos reservados.</p>
         <div className="flex gap-4">
           {["Facebook", "Instagram", "TikTok", "Twitter"].map((s) => <a key={s} href="#" className="text-white/30 text-xs font-semibold hover:text-white/55 transition-colors">{s}</a>)}
         </div>
@@ -333,12 +332,12 @@ function MenuCard({
   onPersonalize: () => void;
   added: boolean;
 }) {
-  const tagColor = item.tag ? (TAG_COLORS[item.tag] ?? "#D0021B") : "#D0021B";
+  const tagColor = item.tag ? (TAG_COLORS[item.tag] ?? "#E31837") : "#E31837";
 
   return (
     <article
       className="group relative flex flex-col rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
-      style={{ backgroundColor: "#1c0005", border: "1.5px solid rgba(208,2,27,0.18)", boxShadow: "0 2px 16px rgba(0,0,0,0.35)" }}
+      style={{ backgroundColor: "#1c0005", border: "1.5px solid rgba(227,24,55,0.18)", boxShadow: "0 2px 16px rgba(0,0,0,0.35)" }}
     >
       {/* Tag */}
       {item.tag && (
@@ -382,7 +381,7 @@ function MenuCard({
               <button
                 onClick={onPersonalize}
                 className="px-3 py-2 rounded-lg font-black text-sm transition-all duration-150 active:scale-95"
-                style={{ backgroundColor: "transparent", border: "1.5px solid #1B3FAB", color: "#93C5FD", fontFamily: "var(--font-display)" }}
+                style={{ backgroundColor: "transparent", border: "1.5px solid #006491", color: "#93C5FD", fontFamily: "var(--font-display)" }}
               >
                 Personalizar
               </button>
@@ -391,9 +390,9 @@ function MenuCard({
               onClick={onAdd}
               className="flex items-center gap-1.5 px-4 py-2 rounded-lg font-black text-sm text-white transition-all duration-150 active:scale-95"
               style={{
-                backgroundColor: added ? "#1B3FAB" : "#D0021B",
+                backgroundColor: added ? "#006491" : "#E31837",
                 fontFamily: "var(--font-display)",
-                boxShadow: added ? "0 2px 10px rgba(27,63,171,0.35)" : "0 2px 10px rgba(208,2,27,0.35)",
+                boxShadow: added ? "0 2px 10px rgba(0,100,145,0.35)" : "0 2px 10px rgba(227,24,55,0.35)",
               }}
             >
               {added ? <><span>✓</span><span>Agregado</span></> : <><PlusIcon /><span>Agregar</span></>}
@@ -436,11 +435,11 @@ function MenuPage({
       {/* Page hero / banner */}
       <div
         className="w-full relative overflow-hidden"
-        style={{ background: "linear-gradient(135deg, #1a0005 0%, #2d000a 50%, #1a0005 100%)", borderBottom: "2px solid rgba(208,2,27,0.3)" }}
+        style={{ background: "linear-gradient(135deg, #1a0005 0%, #2d000a 50%, #1a0005 100%)", borderBottom: "2px solid rgba(227,24,55,0.3)" }}
       >
         {/* Decorative circles */}
-        <div className="absolute -right-20 top-1/2 -translate-y-1/2 w-80 h-80 rounded-full opacity-10" style={{ background: "#D0021B" }} />
-        <div className="absolute -left-10 -bottom-16 w-48 h-48 rounded-full opacity-8" style={{ background: "#D0021B" }} />
+        <div className="absolute -right-20 top-1/2 -translate-y-1/2 w-80 h-80 rounded-full opacity-10" style={{ background: "#E31837" }} />
+        <div className="absolute -left-10 -bottom-16 w-48 h-48 rounded-full opacity-8" style={{ background: "#E31837" }} />
 
         <div className="relative z-10 max-w-screen-xl mx-auto px-6 py-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
           <div>
@@ -451,7 +450,7 @@ function MenuPage({
               </span>
             </div>
             <h1 className="text-5xl font-black text-white leading-none mb-2" style={{ fontFamily: "var(--font-display)" }}>
-              Todo lo que <span style={{ color: "#D0021B" }}>amamos</span>
+              Todo lo que <span style={{ color: "#E31837" }}>amamos</span>
             </h1>
             <p className="text-white/55 font-semibold text-lg max-w-md">
               Pizzas artesanales, acompañamientos, bebidas y postres. Ingredientes frescos en cada platillo.
@@ -470,7 +469,7 @@ function MenuPage({
               onChange={(e) => setSearch(e.target.value)}
               className="w-full pl-10 pr-4 py-3 rounded-xl text-white text-sm font-semibold placeholder:text-white/30 outline-none transition-all"
               style={{ backgroundColor: "rgba(255,255,255,0.07)", border: "1.5px solid rgba(255,255,255,0.12)", fontFamily: "var(--font-body)" }}
-              onFocus={(e) => (e.target.style.borderColor = "#D0021B")}
+              onFocus={(e) => (e.target.style.borderColor = "#E31837")}
               onBlur={(e) => (e.target.style.borderColor = "rgba(255,255,255,0.12)")}
             />
           </div>
@@ -479,9 +478,9 @@ function MenuPage({
         {/* Promo strip */}
         <div className="relative z-10 max-w-screen-xl mx-auto px-6 pb-6 flex flex-wrap gap-3">
           {[
-            { label: "2×1 martes", icon: "🔥", color: "#D0021B" },
-            { label: "Envío gratis +$300", icon: "🚀", color: "#1B3FAB" },
-            { label: "20% primera orden: NAPOLI20", icon: "🎁", color: "#059669" },
+            { label: "2×1 martes", icon: "🔥", color: "#E31837" },
+            { label: "Envío gratis +$300", icon: "🚀", color: "#006491" },
+            { label: "20% primera orden: DOMINOS20", icon: "🎁", color: "#059669" },
           ].map((promo) => (
             <div
               key={promo.label}
@@ -496,7 +495,7 @@ function MenuPage({
       </div>
 
       {/* Filter tabs — sticky */}
-      <div className="sticky z-40 w-full" style={{ top: "var(--header-height, 96px)", backgroundColor: "#0d0005", borderBottom: "1.5px solid rgba(208,2,27,0.2)" }}>
+      <div className="sticky z-40 w-full" style={{ top: "var(--header-height, 96px)", backgroundColor: "#0d0005", borderBottom: "1.5px solid rgba(227,24,55,0.2)" }}>
         <div className="max-w-screen-xl mx-auto px-6">
           <div className="flex items-center gap-1 overflow-x-auto py-3" style={{ scrollbarWidth: "none" }}>
             {CATEGORIES.map((cat) => {
@@ -508,9 +507,9 @@ function MenuPage({
                   className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-black whitespace-nowrap transition-all duration-200 shrink-0"
                   style={{
                     fontFamily: "var(--font-display)",
-                    backgroundColor: isActive ? "#D0021B" : "rgba(255,255,255,0.06)",
+                    backgroundColor: isActive ? "#E31837" : "rgba(255,255,255,0.06)",
                     color: isActive ? "#fff" : "rgba(255,255,255,0.55)",
-                    boxShadow: isActive ? "0 2px 12px rgba(208,2,27,0.4)" : "none",
+                    boxShadow: isActive ? "0 2px 12px rgba(227,24,55,0.4)" : "none",
                   }}
                 >
                   <span className="text-base">{CATEGORY_ICONS[cat]}</span>
@@ -530,7 +529,7 @@ function MenuPage({
 
             {/* Cart summary chip */}
             {cartCount > 0 && (
-              <div className="ml-auto shrink-0 flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-black text-white" style={{ backgroundColor: "#1B3FAB", fontFamily: "var(--font-display)" }}>
+              <div className="ml-auto shrink-0 flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-black text-white" style={{ backgroundColor: "#006491", fontFamily: "var(--font-display)" }}>
                 <CartIcon />
                 <span>{cartCount} en carrito</span>
               </div>
@@ -559,7 +558,7 @@ function MenuPage({
           <div className="flex flex-col items-center justify-center py-24 gap-4">
             <span className="text-6xl opacity-40">🔍</span>
             <p className="text-white/40 font-semibold text-lg">No encontramos resultados para "{search}"</p>
-            <button onClick={() => setSearch("")} className="px-5 py-2 rounded-lg text-sm font-bold text-white" style={{ backgroundColor: "#D0021B", fontFamily: "var(--font-display)" }}>
+            <button onClick={() => setSearch("")} className="px-5 py-2 rounded-lg text-sm font-bold text-white" style={{ backgroundColor: "#E31837", fontFamily: "var(--font-display)" }}>
               Limpiar búsqueda
             </button>
           </div>
@@ -626,7 +625,7 @@ interface FormErrors {
 const STORES = [
   {
     id: 1,
-    name: "Napoli Centro",
+    name: "Dóminos Centro",
     address: "Av. Juárez 234, Centro Histórico",
     distance: "0.8 km",
     wait: "15–20 min",
@@ -637,7 +636,7 @@ const STORES = [
   },
   {
     id: 2,
-    name: "Napoli Polanco",
+    name: "Dóminos Polanco",
     address: "Presidente Masaryk 87, Polanco",
     distance: "2.3 km",
     wait: "10–15 min",
@@ -648,7 +647,7 @@ const STORES = [
   },
   {
     id: 3,
-    name: "Napoli Roma Norte",
+    name: "Dóminos Roma Norte",
     address: "Orizaba 101, Roma Norte",
     distance: "3.1 km",
     wait: "20–25 min",
@@ -659,7 +658,7 @@ const STORES = [
   },
   {
     id: 4,
-    name: "Napoli Condesa",
+    name: "Dóminos Condesa",
     address: "Tamaulipas 54, Hipódromo Condesa",
     distance: "3.6 km",
     wait: "15–20 min",
@@ -684,7 +683,7 @@ function Label({ children, required }: { children: React.ReactNode; required?: b
   return (
     <label className="flex items-center gap-1 text-sm font-bold text-white/80 mb-1.5" style={{ fontFamily: "var(--font-display)" }}>
       {children}
-      {required && <span style={{ color: "#D0021B" }}>*</span>}
+      {required && <span style={{ color: "#E31837" }}>*</span>}
     </label>
   );
 }
@@ -692,10 +691,10 @@ function Label({ children, required }: { children: React.ReactNode; required?: b
 function inputStyle(hasError: boolean): React.CSSProperties {
   return {
     backgroundColor: "rgba(255,255,255,0.05)",
-    border: `1.5px solid ${hasError ? "#D0021B" : "rgba(255,255,255,0.14)"}`,
+    border: `1.5px solid ${hasError ? "#E31837" : "rgba(255,255,255,0.14)"}`,
     color: "#fff",
     fontFamily: "var(--font-body)",
-    boxShadow: hasError ? "0 0 0 3px rgba(208,2,27,0.15)" : "none",
+    boxShadow: hasError ? "0 0 0 3px rgba(227,24,55,0.15)" : "none",
     transition: "border-color 0.15s, box-shadow 0.15s",
   };
 }
@@ -751,7 +750,7 @@ function SatelliteMapMock({ selectedStore, onSelect }: { selectedStore: number |
       <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.55) 100%)" }} />
 
       {/* Map attribution */}
-      <div className="absolute bottom-2 right-3 text-xs text-white/20 font-mono">© Napoli Maps</div>
+      <div className="absolute bottom-2 right-3 text-xs text-white/20 font-mono">© Dóminos Maps</div>
 
       {/* Store pins */}
       {[
@@ -775,23 +774,23 @@ function SatelliteMapMock({ selectedStore, onSelect }: { selectedStore: number |
                 className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-white text-xs font-black whitespace-nowrap transition-all duration-200"
                 style={{
                   fontFamily: "var(--font-display)",
-                  backgroundColor: isSelected ? "#D0021B" : store.open ? "#1B3FAB" : "#555",
-                  boxShadow: isSelected ? "0 2px 16px rgba(208,2,27,0.6)" : "0 2px 8px rgba(0,0,0,0.5)",
+                  backgroundColor: isSelected ? "#E31837" : store.open ? "#006491" : "#555",
+                  boxShadow: isSelected ? "0 2px 16px rgba(227,24,55,0.6)" : "0 2px 8px rgba(0,0,0,0.5)",
                   transform: isSelected ? "scale(1.12)" : "scale(1)",
                 }}
               >
                 <span>🍕</span>
-                <span>{store.name.replace("Napoli ", "")}</span>
+                <span>{store.name.replace("Dóminos ", "")}</span>
                 {!store.open && <span className="opacity-60">(Cerrada)</span>}
               </div>
               {/* Needle */}
               <div
                 className="w-0.5 h-3"
-                style={{ backgroundColor: isSelected ? "#D0021B" : store.open ? "#1B3FAB" : "#555" }}
+                style={{ backgroundColor: isSelected ? "#E31837" : store.open ? "#006491" : "#555" }}
               />
               <div
                 className="w-2.5 h-2.5 rounded-full"
-                style={{ backgroundColor: isSelected ? "#D0021B" : store.open ? "#1B3FAB" : "#555", marginTop: "-2px" }}
+                style={{ backgroundColor: isSelected ? "#E31837" : store.open ? "#006491" : "#555", marginTop: "-2px" }}
               />
             </div>
           </button>
@@ -886,7 +885,7 @@ function AddressPage({
   return (
     <div className="min-h-screen" style={{ backgroundColor: "#0d0005" }}>
       {/* Breadcrumb / steps */}
-      <div style={{ backgroundColor: "#130002", borderBottom: "1px solid rgba(208,2,27,0.2)" }} className="w-full">
+      <div style={{ backgroundColor: "#130002", borderBottom: "1px solid rgba(227,24,55,0.2)" }} className="w-full">
         <div className="max-w-screen-xl mx-auto px-6 py-4 flex items-center gap-2">
           {[
             { label: "Carrito", step: 1, done: true },
@@ -900,7 +899,7 @@ function AddressPage({
                   className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-black shrink-0"
                   style={{
                     fontFamily: "var(--font-display)",
-                    backgroundColor: s.done ? "#059669" : s.active ? "#D0021B" : "rgba(255,255,255,0.1)",
+                    backgroundColor: s.done ? "#059669" : s.active ? "#E31837" : "rgba(255,255,255,0.1)",
                     color: s.done || s.active ? "#fff" : "rgba(255,255,255,0.3)",
                   }}
                 >
@@ -939,9 +938,9 @@ function AddressPage({
                   className="flex-1 flex items-center justify-center gap-2.5 py-3 rounded-xl font-black text-sm transition-all duration-200"
                   style={{
                     fontFamily: "var(--font-display)",
-                    backgroundColor: active ? "#D0021B" : "transparent",
+                    backgroundColor: active ? "#E31837" : "transparent",
                     color: active ? "#fff" : "rgba(255,255,255,0.45)",
-                    boxShadow: active ? "0 2px 12px rgba(208,2,27,0.4)" : "none",
+                    boxShadow: active ? "0 2px 12px rgba(227,24,55,0.4)" : "none",
                   }}
                 >
                   {m === "delivery" ? (
@@ -956,10 +955,10 @@ function AddressPage({
 
           {mode === "delivery" ? (
             /* ── Delivery form ── */
-            <div className="rounded-2xl p-7 flex flex-col gap-6" style={{ backgroundColor: "#180004", border: "1.5px solid rgba(208,2,27,0.18)" }}>
+            <div className="rounded-2xl p-7 flex flex-col gap-6" style={{ backgroundColor: "#180004", border: "1.5px solid rgba(227,24,55,0.18)" }}>
               <div>
                 <h2 className="text-2xl font-black text-white mb-1" style={{ fontFamily: "var(--font-display)" }}>Dirección de entrega</h2>
-                <p className="text-white/45 text-sm font-medium">Los campos marcados con <span style={{ color: "#D0021B" }}>*</span> son obligatorios.</p>
+                <p className="text-white/45 text-sm font-medium">Los campos marcados con <span style={{ color: "#E31837" }}>*</span> son obligatorios.</p>
               </div>
 
               {/* Row 1: Tipo de vía + Nombre de vía */}
@@ -1083,8 +1082,8 @@ function AddressPage({
 
               {/* Validate inline summary */}
               {submitted && hasErrors && (
-                <div className="flex items-start gap-3 px-4 py-3 rounded-xl" style={{ backgroundColor: "rgba(208,2,27,0.1)", border: "1.5px solid rgba(208,2,27,0.35)" }}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D0021B" strokeWidth="2.5" className="shrink-0 mt-0.5"><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></svg>
+                <div className="flex items-start gap-3 px-4 py-3 rounded-xl" style={{ backgroundColor: "rgba(227,24,55,0.1)", border: "1.5px solid rgba(227,24,55,0.35)" }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E31837" strokeWidth="2.5" className="shrink-0 mt-0.5"><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></svg>
                   <p className="text-sm font-semibold" style={{ color: "#FF6677" }}>
                     Revisa los campos marcados en rojo antes de continuar.
                   </p>
@@ -1093,7 +1092,7 @@ function AddressPage({
             </div>
           ) : (
             /* ── Pickup mode ── */
-            <div className="rounded-2xl overflow-hidden" style={{ backgroundColor: "#180004", border: "1.5px solid rgba(208,2,27,0.18)" }}>
+            <div className="rounded-2xl overflow-hidden" style={{ backgroundColor: "#180004", border: "1.5px solid rgba(227,24,55,0.18)" }}>
               <div className="p-6 pb-4">
                 <h2 className="text-2xl font-black text-white mb-1" style={{ fontFamily: "var(--font-display)" }}>Tiendas cercanas</h2>
                 <p className="text-white/45 text-sm font-medium">Selecciona la sucursal donde recogerás tu pedido.</p>
@@ -1115,8 +1114,8 @@ function AddressPage({
                       disabled={!store.open}
                       className="flex items-start gap-4 p-4 rounded-xl text-left transition-all duration-200"
                       style={{
-                        backgroundColor: isSelected ? "rgba(208,2,27,0.15)" : "rgba(255,255,255,0.04)",
-                        border: `1.5px solid ${isSelected ? "#D0021B" : "rgba(255,255,255,0.08)"}`,
+                        backgroundColor: isSelected ? "rgba(227,24,55,0.15)" : "rgba(255,255,255,0.04)",
+                        border: `1.5px solid ${isSelected ? "#E31837" : "rgba(255,255,255,0.08)"}`,
                         opacity: store.open ? 1 : 0.45,
                         cursor: store.open ? "pointer" : "not-allowed",
                       }}
@@ -1124,9 +1123,9 @@ function AddressPage({
                       {/* Radio */}
                       <div
                         className="w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 mt-0.5"
-                        style={{ borderColor: isSelected ? "#D0021B" : "rgba(255,255,255,0.25)" }}
+                        style={{ borderColor: isSelected ? "#E31837" : "rgba(255,255,255,0.25)" }}
                       >
-                        {isSelected && <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: "#D0021B" }} />}
+                        {isSelected && <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: "#E31837" }} />}
                       </div>
 
                       <div className="flex-1 min-w-0">
@@ -1157,7 +1156,7 @@ function AddressPage({
                       </div>
 
                       {isSelected && (
-                        <div className="shrink-0 w-6 h-6 rounded-full flex items-center justify-center" style={{ backgroundColor: "#D0021B" }}>
+                        <div className="shrink-0 w-6 h-6 rounded-full flex items-center justify-center" style={{ backgroundColor: "#E31837" }}>
                           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round"><polyline points="20 6 9 17 4 12" /></svg>
                         </div>
                       )}
@@ -1172,7 +1171,7 @@ function AddressPage({
         {/* ── Right: order summary + CTA ── */}
         <div className="flex flex-col gap-4 lg:sticky lg:top-36">
           {/* Summary card */}
-          <div className="rounded-2xl p-6" style={{ backgroundColor: "#180004", border: "1.5px solid rgba(208,2,27,0.18)" }}>
+          <div className="rounded-2xl p-6" style={{ backgroundColor: "#180004", border: "1.5px solid rgba(227,24,55,0.18)" }}>
             <h3 className="text-lg font-black text-white mb-4" style={{ fontFamily: "var(--font-display)" }}>Resumen del pedido</h3>
             <div className="flex flex-col gap-3 mb-4">
               {cart.length === 0 ? (
@@ -1213,7 +1212,7 @@ function AddressPage({
 
           {/* Delivery estimate */}
           {mode === "delivery" && (
-            <div className="flex items-center gap-3 px-4 py-3 rounded-xl" style={{ backgroundColor: "rgba(27,63,171,0.15)", border: "1px solid rgba(27,63,171,0.35)" }}>
+            <div className="flex items-center gap-3 px-4 py-3 rounded-xl" style={{ backgroundColor: "rgba(0,100,145,0.15)", border: "1px solid rgba(0,100,145,0.35)" }}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
               <div>
                 <p className="text-xs font-black text-white/70" style={{ fontFamily: "var(--font-display)" }}>Tiempo estimado de entrega</p>
@@ -1227,12 +1226,12 @@ function AddressPage({
             onClick={handleSubmit}
             className="w-full py-4 rounded-xl font-black text-lg text-white transition-all duration-150 hover:brightness-110 active:scale-[0.98]"
             style={{
-              backgroundColor: "#D0021B",
+              backgroundColor: "#E31837",
               fontFamily: "var(--font-display)",
-              boxShadow: "0 4px 24px rgba(208,2,27,0.5)",
+              boxShadow: "0 4px 24px rgba(227,24,55,0.5)",
             }}
           >
-            {mode === "delivery" ? "Continuar al pago →" : `Recoger en ${STORES.find((s) => s.id === selectedStore)?.name.replace("Napoli ", "") ?? "tienda"} →`}
+            {mode === "delivery" ? "Continuar al pago →" : `Recoger en ${STORES.find((s) => s.id === selectedStore)?.name.replace("Dóminos ", "") ?? "tienda"} →`}
           </button>
 
           <p className="text-center text-xs text-white/30 font-medium">

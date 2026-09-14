@@ -4,11 +4,11 @@
 @theme {
   --font-display: 'Montserrat', sans-serif;
   --font-body: 'Nunito', sans-serif;
-  --color-brand-red: #D0021B;
-  --color-brand-red-dark: #A80016;
-  --color-brand-red-light: #FF1A30;
-  --color-brand-blue: #1B3FAB;
-  --color-brand-blue-light: #2E57D4;
+  --color-brand-red: #E31837;
+  --color-brand-red-dark: #B1122A;
+  --color-brand-red-light: #E8415B;
+  --color-brand-blue: #006491;
+  --color-brand-blue-light: #599AB7;
   --color-surface: #111111;
 }
 
