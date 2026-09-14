@@ -2,6 +2,7 @@ import { useState } from "react";
 import type React from "react";
 import { MENU_ITEMS, type MenuItem, type Category } from "./menuData";
 import type { CartLine } from "./cart";
+import PizzaWizard from "./PizzaWizard";
 
 // ─── Data ───────────────────────────────────────────────────────────────────
 
@@ -1260,6 +1261,12 @@ export default function App() {
     });
   }
 
+  function addCustomPizza(line: CartLine) {
+    setCart((prev) => [...prev, line]);
+  }
+
+  const customizingPizza = customizingItemId !== null ? MENU_ITEMS.find((i) => i.id === customizingItemId) ?? null : null;
+
   return (
     <div className="min-h-screen flex flex-col" style={{ backgroundColor: "#0d0005" }}>
       <Header cartCount={cartCount} activeView={view} onNav={setView} />
@@ -1269,6 +1276,16 @@ export default function App() {
         <MenuPage onAdd={addSimpleItem} onPersonalize={setCustomizingItemId} addedIds={addedIds} cartCount={cartCount} />
       ) : (
         <AddressPage cart={cart} onContinue={() => alert("¡Pedido confirmado! Gracias por tu orden.")} cartCount={cartCount} />
+      )}
+      {customizingPizza && (
+        <PizzaWizard
+          pizza={customizingPizza}
+          onClose={() => setCustomizingItemId(null)}
+          onAdd={(line) => {
+            addCustomPizza(line);
+            setCustomizingItemId(null);
+          }}
+        />
       )}
     </div>
   );
