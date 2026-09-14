@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type React from "react";
 import { MENU_ITEMS, type MenuItem, type Category } from "./menuData";
-import type { CartLine } from "./cart";
+import { describeCustomization, type CartLine } from "./cart";
 import PizzaWizard from "./PizzaWizard";
 
 // ─── Data ───────────────────────────────────────────────────────────────────
@@ -817,7 +817,7 @@ function SatelliteMapMock({ selectedStore, onSelect }: { selectedStore: number |
 }
 
 function AddressPage({
-  cart, // used by the order summary once it's wired to the real cart (next task)
+  cart,
   onContinue,
   cartCount,
 }: {
@@ -881,11 +881,7 @@ function AddressPage({
   }
 
   const hasErrors = Object.keys(validate(form)).length > 0;
-  const cartItems = [
-    { name: "Pepperoni Clásica", size: "Mediana", price: 249 },
-    { name: "Pan de Ajo", size: "Porción", price: 89 },
-  ];
-  const subtotal = cartItems.reduce((s, i) => s + i.price, 0);
+  const subtotal = cart.reduce((s, l) => s + l.unitPrice * l.quantity, 0);
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: "#0d0005" }}>
@@ -1179,15 +1175,24 @@ function AddressPage({
           <div className="rounded-2xl p-6" style={{ backgroundColor: "#180004", border: "1.5px solid rgba(208,2,27,0.18)" }}>
             <h3 className="text-lg font-black text-white mb-4" style={{ fontFamily: "var(--font-display)" }}>Resumen del pedido</h3>
             <div className="flex flex-col gap-3 mb-4">
-              {cartItems.map((item) => (
-                <div key={item.name} className="flex items-start justify-between gap-3">
-                  <div>
-                    <p className="text-sm font-bold text-white">{item.name}</p>
-                    <p className="text-xs text-white/40 font-medium">{item.size}</p>
+              {cart.length === 0 ? (
+                <p className="text-white/40 text-sm font-medium">Tu carrito está vacío.</p>
+              ) : (
+                cart.map((line) => (
+                  <div key={line.id} className="flex items-start justify-between gap-3">
+                    <div>
+                      <p className="text-sm font-bold text-white">
+                        {line.quantity > 1 ? `${line.quantity}× ` : ""}
+                        {line.name}
+                      </p>
+                      <p className="text-xs text-white/40 font-medium">{describeCustomization(line.customization) ?? "—"}</p>
+                    </div>
+                    <span className="text-sm font-black shrink-0" style={{ color: "#FF3347", fontFamily: "var(--font-display)" }}>
+                      ${line.unitPrice * line.quantity}
+                    </span>
                   </div>
-                  <span className="text-sm font-black shrink-0" style={{ color: "#FF3347", fontFamily: "var(--font-display)" }}>${item.price}</span>
-                </div>
-              ))}
+                ))
+              )}
             </div>
             <div className="flex flex-col gap-2 pt-4" style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}>
               <div className="flex justify-between text-sm text-white/50 font-medium">
