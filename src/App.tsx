@@ -250,21 +250,13 @@ function Hero({ onOrder }: { onOrder: () => void }) {
       <div className="absolute inset-0" style={{ background: "linear-gradient(90deg, rgba(10,0,0,0.93) 0%, rgba(10,0,0,0.72) 52%, rgba(10,0,0,0.32) 100%)" }} />
       <div className="relative z-10 max-w-screen-xl mx-auto px-6 flex items-center h-full" style={{ minHeight: "88vh" }}>
         <div className="max-w-2xl py-20">
-          <h1 className="text-6xl md:text-7xl font-black leading-none tracking-tight mb-4 text-white" style={{ fontFamily: "var(--font-display)" }}>
+          <h1 className="text-6xl md:text-7xl font-black leading-none tracking-tight mb-8 text-white" style={{ fontFamily: "var(--font-display)" }}>
             No puedes decir<br />Domino's sin decir<br /><span style={{ color: "#E31837" }}>mmm</span>.
           </h1>
-          <p className="text-xl text-white/75 font-semibold mb-8 max-w-lg leading-relaxed">
-            Ingredientes frescos, masa artesanal y entrega rápida a tu puerta o la nuestra.
-          </p>
           <div className="flex flex-wrap gap-4 items-center">
             <button onClick={onOrder} className="px-8 py-4 rounded-xl font-black text-lg text-white transition-all hover:brightness-110 active:scale-95 shadow-lg" style={{ backgroundColor: "#E31837", fontFamily: "var(--font-display)", boxShadow: "0 4px 24px rgba(227,24,55,0.5)" }}>
               Pedir ahora →
             </button>
-          </div>
-          <div className="flex flex-wrap gap-6 mt-10 text-white/55 text-sm font-semibold">
-            <span className="flex items-center gap-1.5"><span>⏱</span> Entrega en 30 min</span>
-            <span className="flex items-center gap-1.5"><span>⭐</span> 4.9 · +12,000 reseñas</span>
-            <span className="flex items-center gap-1.5"><span>🛡</span> Ingredientes frescos</span>
           </div>
         </div>
       </div>
