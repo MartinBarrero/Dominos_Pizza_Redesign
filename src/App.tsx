@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { MENU_ITEMS, type MenuItem, type Category } from "./menuData";
 import { describeCustomization, formatPrice, type CartLine } from "./cart";
 import PizzaWizard from "./PizzaWizard";
@@ -42,14 +42,6 @@ function CartIcon() {
   );
 }
 
-function SearchIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
-    </svg>
-  );
-}
-
 function UserIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -84,6 +76,30 @@ const NAV_LINKS: { label: string; view?: View }[] = [
   { label: "Promos" },
 ];
 
+function NotConfiguredPopup({ onClose }: { onClose: () => void }) {
+  return (
+    <div className="fixed inset-0 z-[80] flex items-center justify-center p-4" style={{ backgroundColor: "rgba(0,0,0,0.5)" }} onClick={onClose}>
+      <div
+        className="w-full max-w-sm rounded-2xl p-8 flex flex-col items-center gap-4 text-center"
+        style={{ backgroundColor: "#FFFFFF", border: "1.5px solid rgba(0,0,0,0.08)", boxShadow: "0 8px 40px rgba(0,0,0,0.2)" }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <span className="text-5xl">😄</span>
+        <p className="text-neutral-900 font-bold text-lg leading-relaxed">
+          En esta versión de MockUp no hemos configurado este apartado profe
+        </p>
+        <button
+          onClick={onClose}
+          className="mt-2 px-6 py-2.5 rounded-lg font-bold text-sm text-white"
+          style={{ backgroundColor: "#E31837", fontFamily: "var(--font-display)" }}
+        >
+          Entendido
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function Header({
   cartCount,
   activeView,
@@ -91,7 +107,6 @@ function Header({
   isLoggedIn,
   onAccountClick,
   onCartClick,
-  onSearch,
 }: {
   cartCount: number;
   activeView: View;
@@ -99,19 +114,13 @@ function Header({
   isLoggedIn: boolean;
   onAccountClick: () => void;
   onCartClick: () => void;
-  onSearch: (query: string) => void;
 }) {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [query, setQuery] = useState("");
+  const [notConfiguredOpen, setNotConfiguredOpen] = useState(false);
 
-  function submitSearch() {
-    const trimmed = query.trim();
-    if (trimmed) {
-      onSearch(trimmed);
-      setQuery("");
-    }
-    setSearchOpen(false);
+  function handleNavClick(view?: View) {
+    if (view) onNav(view);
+    else setNotConfiguredOpen(true);
   }
 
   return (
@@ -131,7 +140,7 @@ function Header({
             return (
               <button
                 key={label}
-                onClick={() => view && onNav(view)}
+                onClick={() => handleNavClick(view)}
                 className="px-4 py-2 rounded-md text-sm font-bold transition-all duration-150"
                 style={{
                   fontFamily: "var(--font-display)",
@@ -147,40 +156,6 @@ function Header({
         </nav>
 
         <div className="flex items-center gap-2">
-          {searchOpen ? (
-            <div
-              className="hidden md:flex items-center gap-2 rounded-full px-3 py-2"
-              style={{ backgroundColor: "rgba(0,0,0,0.04)", border: "1px solid rgba(0,0,0,0.12)" }}
-            >
-              <span className="text-black/50"><SearchIcon /></span>
-              <input
-                autoFocus
-                type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") submitSearch();
-                  if (e.key === "Escape") {
-                    setSearchOpen(false);
-                    setQuery("");
-                  }
-                }}
-                onBlur={() => {
-                  if (!query.trim()) setSearchOpen(false);
-                }}
-                placeholder="Buscar en el menú..."
-                className="bg-transparent outline-none text-sm text-neutral-900 placeholder:text-neutral-900/35 w-44"
-              />
-            </div>
-          ) : (
-            <button
-              onClick={() => setSearchOpen(true)}
-              className="hidden md:flex items-center justify-center w-10 h-10 rounded-full text-black/60 hover:text-black hover:bg-black/5 transition-all duration-150"
-              aria-label="Buscar"
-            >
-              <SearchIcon />
-            </button>
-          )}
           <button
             onClick={onAccountClick}
             className="hidden md:flex items-center justify-center w-10 h-10 rounded-full transition-all duration-150"
@@ -216,12 +191,14 @@ function Header({
       {mobileOpen && (
         <div className="md:hidden border-t border-black/10 px-6 pb-4 flex flex-col gap-1" style={{ backgroundColor: "#FFFFFF" }}>
           {NAV_LINKS.map(({ label, view }) => (
-            <button key={label} onClick={() => { view && onNav(view); setMobileOpen(false); }} className="py-2.5 text-sm font-bold text-black/80 hover:text-black border-b border-black/5 last:border-0 text-left" style={{ fontFamily: "var(--font-display)" }}>
+            <button key={label} onClick={() => { handleNavClick(view); setMobileOpen(false); }} className="py-2.5 text-sm font-bold text-black/80 hover:text-black border-b border-black/5 last:border-0 text-left" style={{ fontFamily: "var(--font-display)" }}>
               {label}
             </button>
           ))}
         </div>
       )}
+
+      {notConfiguredOpen && <NotConfiguredPopup onClose={() => setNotConfiguredOpen(false)} />}
     </header>
   );
 }
@@ -458,28 +435,14 @@ function MenuPage({
   onPersonalize,
   addedIds,
   cartCount,
-  initialSearch,
-  searchNonce,
 }: {
   onAdd: (id: number) => void;
   onPersonalize: (id: number) => void;
   addedIds: Set<number>;
   cartCount: number;
-  initialSearch: string;
-  searchNonce: number;
 }) {
   const [activeCategory, setActiveCategory] = useState<Category>("Pizzas");
   const [search, setSearch] = useState("");
-
-  useEffect(() => {
-    if (searchNonce === 0) return;
-    setSearch(initialSearch);
-    const match = MENU_ITEMS.find(
-      (i) => i.name.toLowerCase().includes(initialSearch.toLowerCase()) || i.desc.toLowerCase().includes(initialSearch.toLowerCase())
-    );
-    if (match) setActiveCategory(match.category);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchNonce]);
 
   const filtered = MENU_ITEMS.filter(
     (item) =>
@@ -504,12 +467,6 @@ function MenuPage({
 
         <div className="relative z-10 max-w-screen-xl mx-auto px-6 py-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
           <div>
-            <div className="flex items-center gap-2 mb-3">
-              <span className="text-3xl">📋</span>
-              <span className="text-xs font-black tracking-widest uppercase text-white/40" style={{ fontFamily: "var(--font-display)" }}>
-                Nuestro menú completo
-              </span>
-            </div>
             <h1 className="text-5xl font-black text-white leading-none mb-2" style={{ fontFamily: "var(--font-display)" }}>
               Todo lo que <span style={{ color: "#E31837" }}>amamos</span>
             </h1>
@@ -602,17 +559,14 @@ function MenuPage({
       {/* Products grid */}
       <div className="max-w-screen-xl mx-auto px-6 py-10">
         {/* Category heading */}
-        <div className="flex items-center gap-4 mb-8">
-          <span className="text-4xl">{CATEGORY_ICONS[activeCategory]}</span>
-          <div>
-            <h2 className="text-3xl font-black text-neutral-900" style={{ fontFamily: "var(--font-display)" }}>
-              {activeCategory}
-            </h2>
-            <p className="text-neutral-900/40 text-sm font-semibold">
-              {filtered.length} {filtered.length === 1 ? "producto" : "productos"}
-              {search && ` para "${search}"`}
-            </p>
-          </div>
+        <div className="mb-8">
+          <h2 className="text-3xl font-black text-neutral-900" style={{ fontFamily: "var(--font-display)" }}>
+            {activeCategory}
+          </h2>
+          <p className="text-neutral-900/40 text-sm font-semibold">
+            {filtered.length} {filtered.length === 1 ? "producto" : "productos"}
+            {search && ` para "${search}"`}
+          </p>
         </div>
 
         {filtered.length === 0 ? (
@@ -1280,8 +1234,6 @@ export default function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [loggedInEmail, setLoggedInEmail] = useState<string | null>(null);
-  const [menuSearch, setMenuSearch] = useState("");
-  const [menuSearchNonce, setMenuSearchNonce] = useState(0);
 
   const cartCount = cart.reduce((n, l) => n + l.quantity, 0);
   const addedIds = new Set(cart.filter((l) => !l.customization).map((l) => l.menuItemId));
@@ -1323,12 +1275,6 @@ export default function App() {
 
   const customizingPizza = customizingItemId !== null ? MENU_ITEMS.find((i) => i.id === customizingItemId) ?? null : null;
 
-  function handleHeaderSearch(term: string) {
-    setMenuSearch(term);
-    setMenuSearchNonce((n) => n + 1);
-    setView("menu");
-  }
-
   return (
     <div className="min-h-screen flex flex-col" style={{ backgroundColor: "#FFFFFF" }}>
       <Header
@@ -1338,19 +1284,11 @@ export default function App() {
         isLoggedIn={loggedInEmail !== null}
         onAccountClick={() => (loggedInEmail !== null ? setLoggedInEmail(null) : setIsLoginOpen(true))}
         onCartClick={() => setIsCartOpen(true)}
-        onSearch={handleHeaderSearch}
       />
       {view === "home" ? (
         <HomePage onAddSimple={addSimpleItem} onOrderNow={() => setView("menu")} onPersonalize={setCustomizingItemId} addedIds={addedIds} />
       ) : view === "menu" ? (
-        <MenuPage
-          onAdd={addSimpleItem}
-          onPersonalize={setCustomizingItemId}
-          addedIds={addedIds}
-          cartCount={cartCount}
-          initialSearch={menuSearch}
-          searchNonce={menuSearchNonce}
-        />
+        <MenuPage onAdd={addSimpleItem} onPersonalize={setCustomizingItemId} addedIds={addedIds} cartCount={cartCount} />
       ) : (
         <AddressPage cart={cart} onContinue={() => alert("¡Pedido confirmado! Gracias por tu orden.")} cartCount={cartCount} />
       )}

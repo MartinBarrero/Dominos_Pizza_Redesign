@@ -20,7 +20,6 @@ export const MENU_ITEMS: MenuItem[] = [
     price: 24900,
     tag: "La más pedida",
     category: "Pizzas",
-    popular: true,
     img: "https://images.unsplash.com/photo-1541745537411-b8046dc6d66c?w=600&h=400&fit=crop&auto=format",
   },
   {
@@ -77,15 +76,6 @@ export const MENU_ITEMS: MenuItem[] = [
     img: "https://images.unsplash.com/photo-1619535860434-ba1d8fa12536?w=600&h=400&fit=crop&auto=format",
   },
   {
-    id: 8,
-    name: "Alitas Buffalo",
-    desc: "8 alitas crujientes bañadas en salsa buffalo picante, con aderezo blue cheese",
-    price: 14900,
-    tag: "Picante",
-    category: "Acompañamientos",
-    img: "https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=600&h=400&fit=crop&auto=format",
-  },
-  {
     id: 9,
     name: "Nuggets de Pollo",
     desc: "12 piezas de pollo empanizado con panko japonés, mostaza miel y salsa catsup",
@@ -127,15 +117,6 @@ export const MENU_ITEMS: MenuItem[] = [
     img: "https://images.unsplash.com/photo-1711154319702-70f9e8c3a90f?w=600&h=400&fit=crop&auto=format",
   },
   // Postres
-  {
-    id: 14,
-    name: "Tiramisú Clásico",
-    desc: "Capas de bizcocho de café, mascarpone cremoso y cacao amargo, receta italiana original",
-    price: 10900,
-    tag: "Artesanal",
-    category: "Postres",
-    img: "https://images.unsplash.com/photo-1571115177098-24ec42ed204d?w=600&h=400&fit=crop&auto=format",
-  },
   {
     id: 15,
     name: "Brownie con Helado",
