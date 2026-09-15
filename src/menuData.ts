@@ -50,14 +50,6 @@ export const MENU_ITEMS: MenuItem[] = [
     img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&h=400&fit=crop&auto=format",
   },
   {
-    id: 5,
-    name: "Vegetariana Deluxe",
-    desc: "Pimientos asados, champiñones portobello, espinacas, aceitunas negras y queso de cabra",
-    price: 23900,
-    category: "Pizzas",
-    img: "https://images.unsplash.com/photo-1664478546384-d57ffe74a78c?w=600&h=400&fit=crop&auto=format",
-  },
-  {
     id: 6,
     name: "Prosciutto & Rúcula",
     desc: "Prosciutto di Parma, rúcula fresca, queso parmesano en láminas, reducción balsámica",
