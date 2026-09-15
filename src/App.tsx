@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MENU_ITEMS, type MenuItem, type Category } from "./menuData";
 import { describeCustomization, formatPrice, type CartLine } from "./cart";
 import PizzaWizard from "./PizzaWizard";
@@ -75,6 +75,44 @@ const NAV_LINKS: { label: string; view?: View }[] = [
   { label: "Tiendas" },
   { label: "Promos" },
 ];
+
+function AddedToCartToast({ onViewCart, onDismiss }: { onViewCart: () => void; onDismiss: () => void }) {
+  useEffect(() => {
+    const t = setTimeout(onDismiss, 5000);
+    return () => clearTimeout(t);
+  }, [onDismiss]);
+
+  return (
+    <div
+      className="fixed bottom-6 right-6 left-6 sm:left-auto z-[65] w-full sm:max-w-sm rounded-2xl p-5 flex flex-col gap-3"
+      style={{ backgroundColor: "#FFFFFF", border: "1.5px solid rgba(0,0,0,0.08)", boxShadow: "0 8px 30px rgba(0,0,0,0.18)" }}
+    >
+      <div className="flex items-start gap-3">
+        <span className="text-2xl shrink-0">✅</span>
+        <p className="flex-1 font-bold text-neutral-900 pt-0.5" style={{ fontFamily: "var(--font-display)" }}>Se ha agregado al carrito</p>
+        <button onClick={onDismiss} className="text-black/30 hover:text-black/60 transition-colors shrink-0" aria-label="Cerrar">
+          <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" /></svg>
+        </button>
+      </div>
+      <div className="flex gap-2">
+        <button
+          onClick={onViewCart}
+          className="flex-1 py-2.5 rounded-lg font-bold text-sm text-white transition-all hover:brightness-110"
+          style={{ backgroundColor: "#E31837", fontFamily: "var(--font-display)" }}
+        >
+          Ver el carrito
+        </button>
+        <button
+          onClick={onDismiss}
+          className="flex-1 py-2.5 rounded-lg font-bold text-sm text-neutral-900/70 hover:text-neutral-900 transition-all"
+          style={{ backgroundColor: "rgba(0,0,0,0.05)", fontFamily: "var(--font-display)" }}
+        >
+          Seguir explorando
+        </button>
+      </div>
+    </div>
+  );
+}
 
 function NotConfiguredPopup({ onClose }: { onClose: () => void }) {
   return (
@@ -1234,6 +1272,7 @@ export default function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [loggedInEmail, setLoggedInEmail] = useState<string | null>(null);
+  const [showAddedToast, setShowAddedToast] = useState(false);
 
   const cartCount = cart.reduce((n, l) => n + l.quantity, 0);
   const addedIds = new Set(cart.filter((l) => !l.customization).map((l) => l.menuItemId));
@@ -1250,10 +1289,12 @@ export default function App() {
         { id: crypto.randomUUID(), menuItemId: item.id, name: item.name, img: item.img, unitPrice: item.price, quantity: 1 },
       ];
     });
+    setShowAddedToast(true);
   }
 
   function addCustomPizza(line: CartLine) {
     setCart((prev) => [...prev, line]);
+    setShowAddedToast(true);
   }
 
   function incrementLine(lineId: string) {
@@ -1327,6 +1368,15 @@ export default function App() {
             setIsLoginOpen(false);
           }}
           onGuest={() => setIsLoginOpen(false)}
+        />
+      )}
+      {showAddedToast && (
+        <AddedToCartToast
+          onViewCart={() => {
+            setShowAddedToast(false);
+            setIsCartOpen(true);
+          }}
+          onDismiss={() => setShowAddedToast(false)}
         />
       )}
     </div>
