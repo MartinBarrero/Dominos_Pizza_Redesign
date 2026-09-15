@@ -309,8 +309,10 @@ function WhyUs() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {items.map((item) => (
             <div key={item.title} className="flex flex-col gap-3 p-6 rounded-2xl" style={{ backgroundColor: "#FFFFFF", border: "1.5px solid rgba(0,0,0,0.08)", boxShadow: "0 2px 16px rgba(0,0,0,0.05)" }}>
-              <span className="text-4xl">{item.icon}</span>
-              <h3 className="text-lg font-black text-neutral-900" style={{ fontFamily: "var(--font-display)" }}>{item.title}</h3>
+              <div className="flex items-center gap-2">
+                <span className="text-2xl">{item.icon}</span>
+                <h3 className="text-lg font-black text-neutral-900" style={{ fontFamily: "var(--font-display)" }}>{item.title}</h3>
+              </div>
               <p className="text-neutral-900/55 text-sm font-medium leading-relaxed">{item.desc}</p>
             </div>
           ))}
