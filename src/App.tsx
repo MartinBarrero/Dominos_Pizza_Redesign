@@ -658,22 +658,62 @@ function HomePage({
 type DeliveryMode = "delivery" | "pickup";
 
 interface AddressForm {
+  departamento: string;
+  ciudad: string;
+  barrio: string;
   tipoVia: string;
   nombreVia: string;
   numero: string;
   tipoInmueble: string;
   piso: string;
-  colonia: string;
   referencias: string;
 }
 
 interface FormErrors {
+  departamento?: string;
+  ciudad?: string;
+  barrio?: string;
   tipoVia?: string;
   nombreVia?: string;
   numero?: string;
   tipoInmueble?: string;
-  colonia?: string;
 }
+
+const COLOMBIA_DEPARTAMENTOS = [
+  "Bogotá D.C.",
+  "Amazonas",
+  "Antioquia",
+  "Arauca",
+  "Atlántico",
+  "Bolívar",
+  "Boyacá",
+  "Caldas",
+  "Caquetá",
+  "Casanare",
+  "Cauca",
+  "Cesar",
+  "Chocó",
+  "Córdoba",
+  "Cundinamarca",
+  "Guainía",
+  "Guaviare",
+  "Huila",
+  "La Guajira",
+  "Magdalena",
+  "Meta",
+  "Nariño",
+  "Norte de Santander",
+  "Putumayo",
+  "Quindío",
+  "Risaralda",
+  "San Andrés y Providencia",
+  "Santander",
+  "Sucre",
+  "Tolima",
+  "Valle del Cauca",
+  "Vaupés",
+  "Vichada",
+];
 
 const STORES = [
   {
@@ -846,12 +886,14 @@ function AddressPage({
   const [mode, setMode] = useState<DeliveryMode>("delivery");
   const [selectedStore, setSelectedStore] = useState<number | null>(1);
   const [form, setForm] = useState<AddressForm>({
+    departamento: "",
+    ciudad: "",
+    barrio: "",
     tipoVia: "",
     nombreVia: "",
     numero: "",
     tipoInmueble: "",
     piso: "",
-    colonia: "",
     referencias: "",
   });
   const [errors, setErrors] = useState<FormErrors>({});
@@ -860,11 +902,13 @@ function AddressPage({
 
   function validate(f: AddressForm): FormErrors {
     const e: FormErrors = {};
+    if (!f.departamento) e.departamento = "Selecciona tu departamento";
+    if (!f.ciudad.trim()) e.ciudad = "Ingresa tu ciudad";
+    if (!f.barrio.trim()) e.barrio = "Ingresa tu barrio";
     if (!f.tipoVia) e.tipoVia = "Selecciona el tipo de vía";
-    if (!f.nombreVia.trim()) e.nombreVia = "Ingresa el nombre de la calle";
+    if (!f.nombreVia.trim()) e.nombreVia = "Ingresa el nombre o número de la vía";
     if (!f.numero.trim()) e.numero = "El número exterior es obligatorio";
     if (!f.tipoInmueble) e.tipoInmueble = "Selecciona el tipo de inmueble";
-    if (!f.colonia.trim()) e.colonia = "Ingresa tu colonia";
     return e;
   }
 
@@ -980,7 +1024,59 @@ function AddressPage({
                 <p className="text-neutral-900/50 text-sm font-medium">Los campos marcados con <span style={{ color: "#E31837" }}>*</span> son obligatorios.</p>
               </div>
 
-              {/* Row 1: Tipo de vía + Nombre de vía */}
+              {/* Row 0: Departamento + Ciudad */}
+              <div className="grid grid-cols-2 gap-4">
+                <div data-error-field={errors.departamento ? "departamento" : undefined}>
+                  <Label required>Departamento</Label>
+                  <div className="relative">
+                    <select
+                      value={form.departamento}
+                      onChange={(e) => handleChange("departamento", e.target.value)}
+                      onBlur={() => handleBlur("departamento")}
+                      className="w-full px-4 py-3 rounded-xl text-sm appearance-none outline-none pr-10"
+                      style={selectStyle(!!errors.departamento && (submitted || !!touched.departamento))}
+                    >
+                      <option value="" disabled>Seleccionar…</option>
+                      {COLOMBIA_DEPARTAMENTOS.map((v) => (
+                        <option key={v} value={v} style={{ backgroundColor: "#FFFFFF" }}>{v}</option>
+                      ))}
+                    </select>
+                    <svg className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-900/40" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="6 9 12 15 18 9" /></svg>
+                  </div>
+                  <FieldError msg={(submitted || touched.departamento) ? errors.departamento : undefined} />
+                </div>
+
+                <div data-error-field={errors.ciudad ? "ciudad" : undefined}>
+                  <Label required>Ciudad</Label>
+                  <input
+                    type="text"
+                    placeholder="Ej. Medellín"
+                    value={form.ciudad}
+                    onChange={(e) => handleChange("ciudad", e.target.value)}
+                    onBlur={() => handleBlur("ciudad")}
+                    className="w-full px-4 py-3 rounded-xl text-sm outline-none placeholder:text-neutral-900/35"
+                    style={inputStyle(!!errors.ciudad && (submitted || !!touched.ciudad))}
+                  />
+                  <FieldError msg={(submitted || touched.ciudad) ? errors.ciudad : undefined} />
+                </div>
+              </div>
+
+              {/* Row 0.5: Barrio */}
+              <div data-error-field={errors.barrio ? "barrio" : undefined}>
+                <Label required>Barrio</Label>
+                <input
+                  type="text"
+                  placeholder="Ej. El Poblado"
+                  value={form.barrio}
+                  onChange={(e) => handleChange("barrio", e.target.value)}
+                  onBlur={() => handleBlur("barrio")}
+                  className="w-full px-4 py-3 rounded-xl text-sm outline-none placeholder:text-neutral-900/35"
+                  style={inputStyle(!!errors.barrio && (submitted || !!touched.barrio))}
+                />
+                <FieldError msg={(submitted || touched.barrio) ? errors.barrio : undefined} />
+              </div>
+
+              {/* Row 1: Tipo de vía + Nombre */}
               <div className="grid grid-cols-5 gap-4">
                 <div className="col-span-2" data-error-field={errors.tipoVia ? "tipoVia" : undefined}>
                   <Label required>Tipo de vía</Label>
@@ -993,7 +1089,7 @@ function AddressPage({
                       style={selectStyle(!!errors.tipoVia && (submitted || !!touched.tipoVia))}
                     >
                       <option value="" disabled>Seleccionar…</option>
-                      {["Avenida", "Calle", "Boulevard", "Callejón", "Circuito", "Paseo", "Privada"].map((v) => (
+                      {["Avenida", "Calle", "Carrera", "Diagonal", "Transversal", "Circular", "Autopista"].map((v) => (
                         <option key={v} value={v} style={{ backgroundColor: "#FFFFFF" }}>{v}</option>
                       ))}
                     </select>
@@ -1003,10 +1099,10 @@ function AddressPage({
                 </div>
 
                 <div className="col-span-3" data-error-field={errors.nombreVia ? "nombreVia" : undefined}>
-                  <Label required>Nombre de la calle</Label>
+                  <Label required>Nombre</Label>
                   <input
                     type="text"
-                    placeholder="Ej. Insurgentes Sur"
+                    placeholder="Ej. 45 o Insurgentes Sur"
                     value={form.nombreVia}
                     onChange={(e) => handleChange("nombreVia", e.target.value)}
                     onBlur={() => handleBlur("nombreVia")}
@@ -1044,7 +1140,7 @@ function AddressPage({
                       style={selectStyle(!!errors.tipoInmueble && (submitted || !!touched.tipoInmueble))}
                     >
                       <option value="" disabled>Seleccionar…</option>
-                      {["Casa", "Departamento", "Oficina", "Local comercial", "Hotel", "Otro"].map((v) => (
+                      {["Casa", "Apartamento", "Oficina", "Local comercial", "Hotel", "Otro"].map((v) => (
                         <option key={v} value={v} style={{ backgroundColor: "#FFFFFF" }}>{v}</option>
                       ))}
                     </select>
@@ -1054,33 +1150,17 @@ function AddressPage({
                 </div>
               </div>
 
-              {/* Row 3: Piso / Depto (opcional) + Colonia */}
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label>Piso / Departamento</Label>
-                  <input
-                    type="text"
-                    placeholder="Ej. Piso 3, Depto 12 (opcional)"
-                    value={form.piso}
-                    onChange={(e) => handleChange("piso", e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl text-sm outline-none placeholder:text-neutral-900/35"
-                    style={inputStyle(false)}
-                  />
-                </div>
-
-                <div data-error-field={errors.colonia ? "colonia" : undefined}>
-                  <Label required>Colonia</Label>
-                  <input
-                    type="text"
-                    placeholder="Ej. Del Valle"
-                    value={form.colonia}
-                    onChange={(e) => handleChange("colonia", e.target.value)}
-                    onBlur={() => handleBlur("colonia")}
-                    className="w-full px-4 py-3 rounded-xl text-sm outline-none placeholder:text-neutral-900/35"
-                    style={inputStyle(!!errors.colonia && (submitted || !!touched.colonia))}
-                  />
-                  <FieldError msg={(submitted || touched.colonia) ? errors.colonia : undefined} />
-                </div>
+              {/* Row 3: Piso / Apartamento (opcional) */}
+              <div>
+                <Label>Piso / Apartamento</Label>
+                <input
+                  type="text"
+                  placeholder="Ej. Piso 3, Apto 12 (opcional)"
+                  value={form.piso}
+                  onChange={(e) => handleChange("piso", e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl text-sm outline-none placeholder:text-neutral-900/35"
+                  style={inputStyle(false)}
+                />
               </div>
 
               {/* Row 4: Referencias / Instrucciones adicionales */}
