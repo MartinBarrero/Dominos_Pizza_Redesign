@@ -38,7 +38,7 @@ export default function LoginModal({ onClose, onLogin, onGuest }: LoginModalProp
   return (
     <div className="fixed inset-0 z-[70] flex items-center justify-center p-4" style={{ backgroundColor: "rgba(0,0,0,0.5)" }} onClick={onClose}>
       <div
-        className="w-full max-w-md rounded-2xl p-8 flex flex-col gap-6"
+        className="w-full max-w-md rounded-2xl p-6 sm:p-8 flex flex-col gap-6"
         style={{ backgroundColor: "#FFFFFF", border: "1.5px solid rgba(0,0,0,0.08)", boxShadow: "0 8px 40px rgba(0,0,0,0.2)" }}
         onClick={(e) => e.stopPropagation()}
       >

@@ -164,10 +164,10 @@ function Header({
   return (
     <header style={{ backgroundColor: "#FFFFFF", borderBottom: "2px solid #E31837" }} className="sticky top-0 z-50 w-full">
       {/* Main row */}
-      <div className="max-w-screen-xl mx-auto flex items-center justify-between px-6 py-5 gap-6">
-        <button onClick={() => onNav("home")} className="flex items-center gap-3 shrink-0">
-          <img src={logo} alt="Domino's Pizza" className="w-12 h-12 object-contain" />
-          <span className="text-neutral-900 font-black text-3xl tracking-tight" style={{ fontFamily: "var(--font-display)" }}>
+      <div className="max-w-screen-xl mx-auto flex items-center justify-between px-4 sm:px-6 py-5 gap-3 sm:gap-6">
+        <button onClick={() => onNav("home")} className="flex items-center gap-2 sm:gap-3 shrink-0 min-w-0">
+          <img src={logo} alt="Domino's Pizza" className="w-12 h-12 object-contain shrink-0" />
+          <span className="text-neutral-900 font-black text-lg sm:text-2xl md:text-3xl tracking-tight truncate" style={{ fontFamily: "var(--font-display)" }}>
             Domino's <span style={{ color: "#E31837" }}>Pizza</span>
           </span>
         </button>
@@ -207,11 +207,11 @@ function Header({
           </button>
           <button
             onClick={onCartClick}
-            className="relative flex items-center gap-2 px-4 py-2 rounded-lg font-bold text-white text-sm transition-all hover:brightness-110 active:scale-95"
+            className="relative flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg font-bold text-white text-sm transition-all hover:brightness-110 active:scale-95"
             style={{ backgroundColor: "#E31837", fontFamily: "var(--font-display)" }}
           >
             <CartIcon />
-            <span>Carrito</span>
+            <span className="hidden sm:inline">Carrito</span>
             {cartCount > 0 && (
               <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full text-xs font-black flex items-center justify-center text-white" style={{ backgroundColor: "#006491" }}>
                 {cartCount}
@@ -250,7 +250,7 @@ function Hero({ onOrder }: { onOrder: () => void }) {
       <div className="absolute inset-0" style={{ background: "linear-gradient(90deg, rgba(10,0,0,0.93) 0%, rgba(10,0,0,0.72) 52%, rgba(10,0,0,0.32) 100%)" }} />
       <div className="relative z-10 max-w-screen-xl mx-auto px-6 flex items-center h-full" style={{ minHeight: "88vh" }}>
         <div className="max-w-2xl py-20">
-          <h1 className="text-6xl md:text-7xl font-black leading-none tracking-tight mb-8 text-white" style={{ fontFamily: "var(--font-display)" }}>
+          <h1 className="text-4xl sm:text-5xl md:text-7xl font-black leading-none tracking-tight mb-6 sm:mb-8 text-white" style={{ fontFamily: "var(--font-display)" }}>
             No puedes decir<br />Domino's sin decir<br /><span style={{ color: "#E31837" }}>mmm</span>.
           </h1>
           <div className="flex flex-wrap gap-4 items-center">
@@ -280,7 +280,7 @@ function HomeRecommendations({
         <div className="flex items-end justify-between mb-10 flex-wrap gap-4">
           <div>
             <p className="text-xs font-black tracking-widest uppercase mb-2" style={{ color: "#E31837", fontFamily: "var(--font-display)" }}>Nuestras estrellas</p>
-            <h2 className="text-5xl font-black text-neutral-900 leading-none" style={{ fontFamily: "var(--font-display)" }}>Recomendaciones</h2>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-neutral-900 leading-none" style={{ fontFamily: "var(--font-display)" }}>Recomendaciones</h2>
           </div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -303,7 +303,7 @@ function WhyUs() {
   return (
     <section className="w-full py-20" style={{ backgroundColor: "#F7F4F3" }}>
       <div className="max-w-screen-xl mx-auto px-6">
-        <h2 className="text-4xl font-black text-neutral-900 mb-12 text-center" style={{ fontFamily: "var(--font-display)" }}>
+        <h2 className="text-3xl sm:text-4xl font-black text-neutral-900 mb-12 text-center" style={{ fontFamily: "var(--font-display)" }}>
           ¿Por qué <span style={{ color: "#E31837" }}>Domino's Pizza</span>?
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -329,7 +329,7 @@ function CtaBanner({ onOrder }: { onOrder: () => void }) {
       <div className="absolute -left-12 -bottom-20 w-64 h-64 rounded-full opacity-10 bg-white" />
       <div className="relative z-10 max-w-screen-xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
         <div>
-          <h2 className="text-5xl font-black text-white leading-tight" style={{ fontFamily: "var(--font-display)" }}>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white leading-tight" style={{ fontFamily: "var(--font-display)" }}>
             Tu primera orden con<br /><span style={{ color: "#FFD4D9" }}>20% de descuento</span>
           </h2>
           <p className="text-white/75 font-semibold mt-3 text-lg">Usa el código <strong className="text-white">DOMINOS20</strong> al finalizar tu compra.</p>
@@ -499,7 +499,7 @@ function MenuPage({
 
         <div className="relative z-10 max-w-screen-xl mx-auto px-6 py-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
           <div>
-            <h1 className="text-5xl font-black text-white leading-none mb-2" style={{ fontFamily: "var(--font-display)" }}>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white leading-none mb-2" style={{ fontFamily: "var(--font-display)" }}>
               Todo lo que <span style={{ color: "#E31837" }}>amamos</span>
             </h1>
             <p className="text-white/55 font-semibold text-lg max-w-md">
@@ -943,14 +943,14 @@ function AddressPage({
     <div className="min-h-screen" style={{ backgroundColor: "#FFFFFF" }}>
       {/* Breadcrumb / steps */}
       <div style={{ backgroundColor: "#F7F4F3", borderBottom: "1px solid rgba(227,24,55,0.2)" }} className="w-full">
-        <div className="max-w-screen-xl mx-auto px-6 py-4 flex items-center gap-2">
+        <div className="max-w-screen-xl mx-auto px-6 py-4 flex items-center gap-2 overflow-x-auto">
           {[
             { label: "Carrito", step: 1, done: true },
             { label: "Entrega", step: 2, active: true },
             { label: "Pago", step: 3 },
             { label: "Confirmación", step: 4 },
           ].map((s, i, arr) => (
-            <div key={s.label} className="flex items-center gap-2">
+            <div key={s.label} className="flex items-center gap-2 shrink-0">
               <div className="flex items-center gap-2">
                 <div
                   className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-black shrink-0"
@@ -1019,7 +1019,7 @@ function AddressPage({
               </div>
 
               {/* Row 0: Departamento + Ciudad */}
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div data-error-field={errors.departamento ? "departamento" : undefined}>
                   <Label required>Departamento</Label>
                   <div className="relative">
@@ -1071,8 +1071,8 @@ function AddressPage({
               </div>
 
               {/* Row 1: Tipo de vía + Nombre */}
-              <div className="grid grid-cols-5 gap-4">
-                <div className="col-span-2" data-error-field={errors.tipoVia ? "tipoVia" : undefined}>
+              <div className="grid grid-cols-1 sm:grid-cols-5 gap-4">
+                <div className="sm:col-span-2" data-error-field={errors.tipoVia ? "tipoVia" : undefined}>
                   <Label required>Tipo de vía</Label>
                   <div className="relative">
                     <select
@@ -1092,7 +1092,7 @@ function AddressPage({
                   <FieldError msg={(submitted || touched.tipoVia) ? errors.tipoVia : undefined} />
                 </div>
 
-                <div className="col-span-3" data-error-field={errors.nombreVia ? "nombreVia" : undefined}>
+                <div className="sm:col-span-3" data-error-field={errors.nombreVia ? "nombreVia" : undefined}>
                   <Label required>Nombre</Label>
                   <input
                     type="text"
@@ -1108,7 +1108,7 @@ function AddressPage({
               </div>
 
               {/* Row 2: Número exterior + Tipo de inmueble */}
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div data-error-field={errors.numero ? "numero" : undefined}>
                   <Label required>Número exterior</Label>
                   <input
