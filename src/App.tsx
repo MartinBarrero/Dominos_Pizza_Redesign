@@ -6,6 +6,7 @@ import LoginModal from "./LoginModal";
 import CartDrawer from "./CartDrawer";
 import { logoDataUri as logo } from "./assets/logo";
 import heroImg from "./assets/hero.jpg";
+import mapaImg from "./assets/mapa.png";
 import { FieldError, Label, inputStyle, selectStyle } from "./formHelpers";
 
 // ─── Data ───────────────────────────────────────────────────────────────────
@@ -22,13 +23,13 @@ const CATEGORY_ICONS: Record<Category, string> = {
 };
 
 const TAG_COLORS: Record<string, string> = {
-  "La más pedida": "#E31837",
-  "Favorita del chef": "#7C3AED",
-  Nuevo: "#059669",
+  "La más pedida": "#006491",
+  "Favorita del chef": "#006491",
+  Nuevo: "#006491",
   "Oferta 2×1": "#006491",
-  Premium: "#92400E",
-  Picante: "#EA580C",
-  Artesanal: "#0F766E",
+  Premium: "#006491",
+  Picante: "#006491",
+  Artesanal: "#006491",
 };
 
 // ─── Icons ───────────────────────────────────────────────────────────────────
@@ -389,7 +390,7 @@ function MenuCard({
   onPersonalize: () => void;
   added: boolean;
 }) {
-  const tagColor = item.tag ? (TAG_COLORS[item.tag] ?? "#E31837") : "#E31837";
+  const tagColor = item.tag ? (TAG_COLORS[item.tag] ?? "#006491") : "#006491";
 
   return (
     <article
@@ -756,48 +757,12 @@ const STORES = [
   },
 ];
 
-// Fake satellite map built with CSS layers to evoke an aerial tile view
+// Satellite-style map using a real map image, with interactive store pins overlaid
 function SatelliteMapMock({ selectedStore, onSelect }: { selectedStore: number | null; onSelect: (id: number) => void }) {
   return (
     <div className="relative w-full rounded-2xl overflow-hidden" style={{ height: "420px", backgroundColor: "#1a2a1a" }}>
-      {/* Satellite-style background tiles */}
-      <div className="absolute inset-0" style={{
-        background: "radial-gradient(ellipse at 30% 60%, #1e3a1e 0%, #0e1e0e 40%, #0a180a 100%)",
-      }} />
-
-      {/* Street grid overlay */}
-      <svg className="absolute inset-0 w-full h-full opacity-30" viewBox="0 0 800 420" preserveAspectRatio="none">
-        {/* Diagonal avenue */}
-        <path d="M0 210 L800 160" stroke="#c8a84b" strokeWidth="6" opacity="0.6" />
-        <path d="M0 230 L800 180" stroke="#c8a84b" strokeWidth="3" opacity="0.3" />
-        {/* Grid streets */}
-        <line x1="0" y1="120" x2="800" y2="120" stroke="#8aaa6a" strokeWidth="2.5" opacity="0.5" />
-        <line x1="0" y1="280" x2="800" y2="280" stroke="#8aaa6a" strokeWidth="2.5" opacity="0.5" />
-        <line x1="0" y1="50" x2="800" y2="50" stroke="#6a8a5a" strokeWidth="1.5" opacity="0.35" />
-        <line x1="0" y1="360" x2="800" y2="360" stroke="#6a8a5a" strokeWidth="1.5" opacity="0.35" />
-        <line x1="140" y1="0" x2="140" y2="420" stroke="#8aaa6a" strokeWidth="2.5" opacity="0.5" />
-        <line x1="360" y1="0" x2="360" y2="420" stroke="#8aaa6a" strokeWidth="2.5" opacity="0.5" />
-        <line x1="580" y1="0" x2="580" y2="420" stroke="#8aaa6a" strokeWidth="2.5" opacity="0.5" />
-        <line x1="60" y1="0" x2="60" y2="420" stroke="#6a8a5a" strokeWidth="1.5" opacity="0.35" />
-        <line x1="250" y1="0" x2="250" y2="420" stroke="#6a8a5a" strokeWidth="1.5" opacity="0.35" />
-        <line x1="470" y1="0" x2="470" y2="420" stroke="#6a8a5a" strokeWidth="1.5" opacity="0.35" />
-        <line x1="690" y1="0" x2="690" y2="420" stroke="#6a8a5a" strokeWidth="1.5" opacity="0.35" />
-        {/* City blocks */}
-        <rect x="70" y="55" width="60" height="55" fill="#2a4a2a" rx="2" opacity="0.7" />
-        <rect x="150" y="130" width="90" height="80" fill="#253823" rx="2" opacity="0.6" />
-        <rect x="260" y="55" width="80" height="55" fill="#2a4030" rx="2" opacity="0.6" />
-        <rect x="370" y="130" width="100" height="70" fill="#253823" rx="2" opacity="0.6" />
-        <rect x="590" y="55" width="80" height="60" fill="#2a4a2a" rx="2" opacity="0.7" />
-        <rect x="70" y="135" width="55" height="60" fill="#1e3520" rx="2" opacity="0.5" />
-        <rect x="480" y="130" width="85" height="70" fill="#253823" rx="2" opacity="0.6" />
-        <rect x="70" y="295" width="60" height="55" fill="#2a4a2a" rx="2" opacity="0.6" />
-        <rect x="150" y="295" width="90" height="55" fill="#253823" rx="2" opacity="0.5" />
-        <rect x="370" y="295" width="100" height="55" fill="#253823" rx="2" opacity="0.5" />
-        <rect x="590" y="295" width="80" height="55" fill="#2a4a2a" rx="2" opacity="0.6" />
-        {/* Park / green area */}
-        <ellipse cx="480" cy="300" rx="65" ry="50" fill="#1a4a1a" opacity="0.7" />
-        <ellipse cx="490" cy="295" rx="30" ry="22" fill="#2a6a2a" opacity="0.6" />
-      </svg>
+      {/* Satellite map image */}
+      <img src={mapaImg} alt="Mapa satelital de tiendas cercanas" className="absolute inset-0 w-full h-full object-cover" />
 
       {/* Subtle vignette */}
       <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.55) 100%)" }} />
